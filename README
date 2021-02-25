@@ -1,1 +1,5 @@
-test
+git clone https://github.com/dgtrabada/cartas.js
+#install express and socket.io 
+npm install
+node server.js
+#client in : http://localhost:8080/
