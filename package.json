@@ -1,0 +1,9 @@
+{
+   "name": "Juego de cartas",
+   "description": "juego de cartas multijugador",
+   "author": "dgtrabada",
+   "dependencies": {
+      "express": "4.x",
+      "socket.io": "*"
+   }
+}
