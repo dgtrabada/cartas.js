@@ -15,18 +15,29 @@ document.addEventListener("DOMContentLoaded", function() {
    // set canvas to full browser width/height
    canvas.width = width;
    canvas.height = height;
-
    var ancho = 30
    var largo = 50
 
+
+   var person ="X"+Math.floor(Math.random() * 10000);
+   /*
+   person=prompt("Please enter your name:", person);
+   if (person == null || person == "") {
+     txt = "User cancelled the prompt.";
+   } else {
+     txt = "Hello " + person + "! How are you today?";
+   }
+   */
+   socket.emit('person', {  person : person });
    // register mouse event handlers
    canvas.onmousedown = function(e){
-     mouse.click = true;
-     mouse.pos.x = e.clientX ;
-     mouse.pos.y = e.clientY ;
-     for (i=0;i<carta.length;i++) {
-       if(mouse.pos.x>carta[i].x && mouse.pos.x<(carta[i].x+ancho) && mouse.pos.y>carta[i].y && mouse.pos.y<(carta[i].y+largo)){
-         carta[i].seleccionada=true;
+   mouse.click = true;
+   mouse.pos.x = e.clientX ;
+   mouse.pos.y = e.clientY ;
+   for (i=0;i<carta.length;i++) {
+     if(mouse.pos.x>carta[i].x && mouse.pos.x<(carta[i].x+ancho) && mouse.pos.y>carta[i].y && mouse.pos.y<(carta[i].y+largo)){
+       carta[i].seleccionada=true;
+       i=carta.length
        }
      }
     };
@@ -35,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
       for (i=0;i<carta.length;i++) {
         carta[i].seleccionada=false;
       }
+      socket.emit('escena', {  carta : carta });
       drawCartas()
     };
 
@@ -81,7 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
       context.stroke();
       context.font = "12px Arial";
       context.fillStyle = "#0095DD";
-      context.fillText("carta "+i+" : "+parseInt(carta[i].x)+","+parseInt(carta[i].y), 8,40+i*20);
+        context.fillText("person = "+person,8,40);
+      //context.fillText("carta "+i+" : "+parseInt(carta[i].x)+","+parseInt(carta[i].y), 8,40+i*20);
      }
 
 
@@ -94,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
    });
 
    function mainLoop() {
-   if (mouse.click && mouse.move) {
+   if ((mouse.click && mouse.move)) {
       socket.emit('escena', {  carta : carta });
       }
       setTimeout(mainLoop, 25); //25ms
