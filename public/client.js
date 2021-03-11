@@ -72,6 +72,9 @@ document.addEventListener("DOMContentLoaded", function() {
    context.font = "16px Arial";
    context.fillStyle = "#0095DD";
    context.fillText("("+parseInt(mouse.pos.x)+","+parseInt(mouse.pos.y)+")", 8,20);
+   context.font = "12px Arial";
+   context.fillStyle = "#0095DD";
+   context.fillText("person = "+person,8,40);
 
    for (i=0;i<carta.length;i++) {
      if(carta[i].seleccionada && mouse.click ){
@@ -85,20 +88,21 @@ document.addEventListener("DOMContentLoaded", function() {
       context.closePath();
 
       context.font = "12px Arial";
-      context.fillStyle = "#0095DD";
+      if(carta[i].palo=="espadas")context.fillStyle = "#0095DD";
+      if(carta[i].palo=="bastos")context.fillStyle = "#7D210E";
+      if(carta[i].palo=="oros")context.fillStyle = " #E5CA3E";
+      if(carta[i].palo=="copas")context.fillStyle = "#E5573E";
       context.fillText(carta[i].label, carta[i].x, carta[i].y+12);
-
+      context.font = "55px Arial";
+      context.fillText(carta[i].n,carta[i].x+10, carta[i].y+80);
 
       context.beginPath();
       if(carta[i].seleccionada){
         context.strokeStyle = "red";
       }else{
         context.strokeStyle = "black";}
-      context.rect(carta[i].x, carta[i].y, ancho, largo);
-      context.stroke();
-      context.font = "12px Arial";
-      context.fillStyle = "#0095DD";
-        context.fillText("person = "+person,8,40);
+        context.rect(carta[i].x, carta[i].y, ancho, largo);
+        context.stroke();
       //context.fillText("carta "+i+" : "+parseInt(carta[i].x)+","+parseInt(carta[i].y), 8,40+i*20);
      }
 

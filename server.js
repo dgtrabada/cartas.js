@@ -18,18 +18,32 @@ class Carta {
     this.y = y;
     this.palo = palo;
     this.n = n;
+    if(n==8) this.n = "S";
+    if(n==9) this.n = "C";
+    if(n==10) this.n = "R";
     this.seleccionada = seleccionada;
-    this.label = this.n+" "+this.palo;;
+    this.label = this.n+" "+this.palo;
   }
 }
 
 var carta=[]
 
-for (i=1;i<8;i++){
-  const icarta = new Carta(200+40*i,200,'oros',i,false)
+for (i=1;i<11;i++){
+  const icarta = new Carta(200+40*i,80,'oros',i,false)
   carta.push(icarta)
 }
-
+for (i=1;i<11;i++){
+  const icarta = new Carta(200+40*i,200,'copas',i,false)
+  carta.push(icarta)
+}
+for (i=1;i<11;i++){
+  const icarta = new Carta(200+40*i,320,'espadas',i,false)
+  carta.push(icarta)
+}
+for (i=1;i<11;i++){
+  const icarta = new Carta(200+40*i,440,'bastos',i,false)
+  carta.push(icarta)
+}
 // { x:200,    y: 200,  palo : 'oros',  n : 1 , seleccionada : false},
 // { x:200+40, y: 200,  palo : 'oros',  n : 2 , seleccionada : false} ]
 
