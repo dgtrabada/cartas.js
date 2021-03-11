@@ -13,7 +13,7 @@ console.log("Server running on 127.0.0.1:8069");
 
 
 class Carta {
-  constructor(x,y,palo,n,seleccionada) {
+  constructor(x,y,palo,n,up,seleccionada) {
     this.x = x;
     this.y = y;
     this.palo = palo;
@@ -22,6 +22,7 @@ class Carta {
     if(n==9) this.n = "C";
     if(n==10) this.n = "R";
     this.seleccionada = seleccionada;
+    this.up = up
     this.label = this.n+" "+this.palo;
   }
 }
@@ -29,19 +30,19 @@ class Carta {
 var carta=[]
 
 for (i=1;i<11;i++){
-  const icarta = new Carta(200+40*i,80,'oros',i,false)
+  const icarta = new Carta(200+40*i,80,'oros',i,true,false)
   carta.push(icarta)
 }
 for (i=1;i<11;i++){
-  const icarta = new Carta(200+40*i,200,'copas',i,false)
+  const icarta = new Carta(200+40*i,200,'copas',i,true,false)
   carta.push(icarta)
 }
 for (i=1;i<11;i++){
-  const icarta = new Carta(200+40*i,320,'espadas',i,false)
+  const icarta = new Carta(200+40*i,320,'espadas',i,true,false)
   carta.push(icarta)
 }
 for (i=1;i<11;i++){
-  const icarta = new Carta(200+40*i,440,'bastos',i,false)
+  const icarta = new Carta(200+40*i,440,'bastos',i,false,false)
   carta.push(icarta)
 }
 // { x:200,    y: 200,  palo : 'oros',  n : 1 , seleccionada : false},

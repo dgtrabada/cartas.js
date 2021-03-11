@@ -50,6 +50,19 @@ document.addEventListener("DOMContentLoaded", function() {
       drawCartas()
     };
 
+   canvas.ondblclick  = function(e){
+     mouse.pos.x = e.clientX ;
+     mouse.pos.y = e.clientY ;
+     for (i=0;i<carta.length;i++) {
+       if(mouse.pos.x>carta[i].x && mouse.pos.x<(carta[i].x+ancho) && mouse.pos.y>carta[i].y && mouse.pos.y<(carta[i].y+largo)){
+         carta[i].up=!(carta[i].up);
+
+         }
+       }
+      socket.emit('escena', {  carta : carta });
+      drawCartas()
+    };
+
    canvas.onmousemove = function(e) {
       // normalize mouse position to range 0.0 - 1.0
       mouse.pos.x = e.clientX ;
@@ -87,6 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
       context.fill();
       context.closePath();
 
+      if(carta[i].up){
       context.font = "12px Arial";
       if(carta[i].palo=="espadas")context.fillStyle = "#0095DD";
       if(carta[i].palo=="bastos")context.fillStyle = "#7D210E";
@@ -95,7 +109,10 @@ document.addEventListener("DOMContentLoaded", function() {
       context.fillText(carta[i].label, carta[i].x, carta[i].y+12);
       context.font = "55px Arial";
       context.fillText(carta[i].n,carta[i].x+10, carta[i].y+80);
-
+    }else{
+        context.fillStyle = "#787274";
+      context.fillRect (carta[i].x, carta[i].y, ancho, largo);
+    }
       context.beginPath();
       if(carta[i].seleccionada){
         context.strokeStyle = "red";
