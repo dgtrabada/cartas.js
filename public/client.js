@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
    // set canvas to full browser width/height
    canvas.width = width;
    canvas.height = height;
-   var ancho = 30
-   var largo = 50
+   var ancho = 60
+   var largo = 100
 
 
    var person ="X"+Math.floor(Math.random() * 10000);
@@ -83,6 +83,11 @@ document.addEventListener("DOMContentLoaded", function() {
       context.fillRect (carta[i].x, carta[i].y, ancho, largo);
       context.fill();
       context.closePath();
+
+      context.font = "12px Arial";
+      context.fillStyle = "#0095DD";
+      context.fillText(carta[i].label, carta[i].x, carta[i].y+12);
+
 
       context.beginPath();
       if(carta[i].seleccionada){
