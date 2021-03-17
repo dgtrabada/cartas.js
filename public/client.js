@@ -19,16 +19,16 @@ document.addEventListener("DOMContentLoaded", function() {
    var largo = 100
 
 
-   var person ="X"+Math.floor(Math.random() * 10000);
+   var name ="Test3" ; //"X"+Math.floor(Math.random() * 10000);
    /*
-   person=prompt("Please enter your name:", person);
-   if (person == null || person == "") {
+   name=prompt("Please enter your name:", name);
+   if (name == null || name == "") {
      txt = "User cancelled the prompt.";
    } else {
-     txt = "Hello " + person + "! How are you today?";
+     txt = "Hello " + name + "! How are you today?";
    }
    */
-   socket.emit('person', {  person : person });
+   socket.emit('name', {  name : name });
    // register mouse event handlers
    canvas.onmousedown = function(e){
    mouse.click = true;
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
    context.fillText("("+parseInt(mouse.pos.x)+","+parseInt(mouse.pos.y)+")", 8,20);
    context.font = "12px Arial";
    context.fillStyle = "#0095DD";
-   context.fillText("person = "+person,8,40);
+   context.fillText("name = "+name,8,40);
 
    for (i=0;i<carta.length;i++) {
      if(carta[i].seleccionada && mouse.click ){
@@ -100,18 +100,22 @@ document.addEventListener("DOMContentLoaded", function() {
       context.fill();
       context.closePath();
 
-      if(carta[i].up){
+      if(carta[i].up && carta[i].jugador.name == name){
       context.font = "12px Arial";
       if(carta[i].palo=="espadas")context.fillStyle = "#0095DD";
       if(carta[i].palo=="bastos")context.fillStyle = "#7D210E";
       if(carta[i].palo=="oros")context.fillStyle = " #E5CA3E";
       if(carta[i].palo=="copas")context.fillStyle = "#E5573E";
       context.fillText(carta[i].label, carta[i].x, carta[i].y+12);
+      context.fillText(carta[i].jugador.name, carta[i].x, carta[i].y+22);
       context.font = "55px Arial";
       context.fillText(carta[i].n,carta[i].x+10, carta[i].y+80);
     }else{
         context.fillStyle = "#787274";
       context.fillRect (carta[i].x, carta[i].y, ancho, largo);
+       context.fillStyle = "yellow";
+       context.font = "12px Arial";
+      context.fillText(carta[i].jugador.name, carta[i].x, carta[i].y+22);
     }
       context.beginPath();
       if(carta[i].seleccionada){
