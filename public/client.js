@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
    var largo = 100
 
 
-   var name ="Test3" ; //"X"+Math.floor(Math.random() * 10000);
+   var name ="dgtrabada" ; //"X"+Math.floor(Math.random() * 10000);
    /*
    name=prompt("Please enter your name:", name);
    if (name == null || name == "") {

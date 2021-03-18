@@ -11,14 +11,20 @@ server.listen(8069);
 app.use(express.static(__dirname + '/public'));
 console.log("Server running on 127.0.0.1:8069");
 
+var palo = ["oros","copas","bastos","espadas"]
 
 class Jugador {
-  constructor(id,name,seleccionado){
-    this.id=id
+  constructor(name){
     this.name=name
-    this.seleccionado=seleccionado
   }
 }
+
+var jugador=[]
+jugador.push(new Jugador("dgtrabada"))
+jugador.push(new Jugador("alsubias"))
+jugador.push(new Jugador("pangard"))
+jugador.push(new Jugador("dguerra"))
+
 
 class Carta {
   constructor(jugador,x,y,palo,n,up,seleccionada,giro) {
@@ -38,31 +44,35 @@ class Carta {
 }
 
 var carta=[]
-var jugador=[]
-for (i=0;i<4;i++){
-  const ijugador = new Jugador(i,"jugador_"+i,false)
-  console.log(ijugador.name)
-  jugador.push(ijugador)
+
+
+for (p=0;p<palo.length;p++){
+  for (i=1;i<11;i++){
+    // coincidencia cuatro jugadores y cuatro palos
+    carta.push( new Carta(jugador[p],200+40*i,80+p*120,palo[p],i,true,false,0) )
+  }
+}
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
-for (i=1;i<11;i++){
-  const icarta = new Carta(jugador[0],200+40*i,80,'oros',i,true,false,0)
-  carta.push(icarta)
+function print_cartas(){
+  for(i=0;i<40;i++) console.log(carta[i].jugador.name+" "+carta[i].n+" "+carta[i].palo);
 }
-for (i=1;i<11;i++){
-  const icarta = new Carta(jugador[1],200+40*i,200,'copas',i,true,false,0)
-  carta.push(icarta)
+
+function barajar(){
+  for(i=1;i<200;i++){
+    i1 = getRndInteger(0,40);
+    i2 = getRndInteger(0,40);
+    aux = carta[i2].jugador;
+    carta[i2].jugador = carta[i1].jugador;
+    carta[i1].jugador = aux;
+  }
 }
-for (i=1;i<11;i++){
-  const icarta = new Carta(jugador[2],200+40*i,320,'espadas',i,true,false,0)
-  carta.push(icarta)
-}
-for (i=1;i<11;i++){
-  const icarta = new Carta(jugador[3],200+40*i,440,'bastos',i,false,false,90)
-  carta.push(icarta)
-}
-// { x:200,    y: 200,  palo : 'oros',  n : 1 , seleccionada : false},
-// { x:200+40, y: 200,  palo : 'oros',  n : 2 , seleccionada : false} ]
+
+//print_cartas();
+barajar();
+//print_cartas();
 
 io.on('connection', function (socket) {
 
