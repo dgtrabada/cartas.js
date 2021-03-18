@@ -70,9 +70,39 @@ function barajar(){
   }
 }
 
+
 //print_cartas();
 barajar();
 //print_cartas();
+
+
+  id=ip=4
+  ia=ig=2
+
+  for(i=0;i<40;i++) {
+    //console.log(carta[i].jugador.name)
+    if(carta[i].jugador.name=="dgtrabada"){
+      id++;
+      carta[i].y=400 ;
+      carta[i].x=40*id ;
+      }
+    if(carta[i].jugador.name=="pangard"){
+      ip++;
+      carta[i].y=40 ;
+      carta[i].x=40*ip ;
+      }
+    if(carta[i].jugador.name=="alsubias"){
+      ia++;
+      carta[i].x=700 ;
+      carta[i].y=30*ia ;
+      }
+  if(carta[i].jugador.name=="dguerra"){
+    ig++;
+    carta[i].x=80 ;
+    carta[i].y=30*ig ;
+    }
+  }
+
 
 io.on('connection', function (socket) {
 

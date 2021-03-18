@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
    var name ="dgtrabada" ; //"X"+Math.floor(Math.random() * 10000);
+   name ="pangard"
    /*
    name=prompt("Please enter your name:", name);
    if (name == null || name == "") {
