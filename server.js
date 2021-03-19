@@ -45,7 +45,7 @@ class Carta {
 }
 
 var carta=[]
-Tx=Ty=400
+Tx=Ty=600
 
 for (p=0;p<palo.length;p++){
   for (i=1;i<11;i++){
@@ -85,23 +85,23 @@ barajar();
     //console.log(carta[i].jugador.name)
     if(carta[i].jugador.name=="dgtrabada"){
       id++;
-      carta[i].x=[40*id,700,40*id,80]
-      carta[i].y=[400,25*id,40,25*id]
+      carta[i].x=[30*id,500,30*id,80]
+      carta[i].y=[500,25*id,40,25*id]
       }
     if(carta[i].jugador.name=="alsubias"){
-      ia++;
-      carta[i].x=[700,40*ia,80,40*ia]
-      carta[i].y=[25*ia,40,25*ia,400]
+      ig++;
+      carta[i].x=[80,30*ig,500,30*ig]
+      carta[i].y=[25*ig,500,25*ig,40]
       }
     if(carta[i].jugador.name=="pangard"){
      ip++;
-     carta[i].x=[40*ip,80,40*ip,700]
-     carta[i].y=[40,25*ip,400,25*ip]
+     carta[i].x=[30*ip,80,30*ip,500]
+     carta[i].y=[40,25*ip,500,25*ip]
      }
    if(carta[i].jugador.name=="dguerra"){
-     ig++;
-     carta[i].x=[80,40*ig,700,40*ig]
-     carta[i].y=[25*ig,400,25*ig,40]
+     ia++;
+     carta[i].x=[500,30*ia,80,30*ia]
+     carta[i].y=[25*ia,40,25*ia,500]
      }
   }
 

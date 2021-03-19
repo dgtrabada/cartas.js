@@ -22,11 +22,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
    var name = "dgtrabada";
-   var index = 0
-   if(Math.floor(Math.random()*2)==0) {
-     name="dguerra" ; //"X"+Math.floor(Math.random() * 10000);
-     index = 3;
-   }
+   var index = Math.floor(Math.random()*4)
+   if(index == 0 )  name = "dgtrabada";
+   if(index == 1 )  name = "alsubias";
+   if(index == 2 )  name = "pangard";
+   if(index == 3)  name = "dguerra";
 
    /*
    name=prompt("Please enter your name:", name);
@@ -109,9 +109,19 @@ document.addEventListener("DOMContentLoaded", function() {
     if(index == 0){
           carta[i].x[0]=mouse.pos.x-ancho/2;
           carta[i].y[0]=mouse.pos.y-largo/2;
+          carta[i].x[1]=mouse.pos.y-largo/2;
+          carta[i].y[1]=mouse.pos.x-ancho/2;
           carta[i].x[2]=mouse.pos.x-ancho/2;
           carta[i].y[2]=Ty+largo*3/2-mouse.pos.y-largo/2;
+          carta[i].x[3]=mouse.pos.y-largo/2;
+          carta[i].y[3]=mouse.pos.x-ancho/2;
         }
+        if(index == 1){
+              carta[i].x[0]=mouse.pos.x-ancho/2;
+              carta[i].y[0]=mouse.pos.y-largo/2;
+              carta[i].x[2]=mouse.pos.x-ancho/2;
+              carta[i].y[2]=Ty+largo*3/2-mouse.pos.y-largo/2;
+            }
         if(index == 2){
               carta[i].x[0]=mouse.pos.x-ancho/2;
               carta[i].y[0]=Ty+largo*3/2-mouse.pos.y-largo/2;
