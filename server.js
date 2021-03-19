@@ -14,16 +14,17 @@ console.log("Server running on 127.0.0.1:8069");
 var palo = ["oros","copas","bastos","espadas"]
 
 class Jugador {
-  constructor(name){
+  constructor(index,name){
     this.name=name
+    this.index=index
   }
 }
 
 var jugador=[]
-jugador.push(new Jugador("dgtrabada"))
-jugador.push(new Jugador("alsubias"))
-jugador.push(new Jugador("pangard"))
-jugador.push(new Jugador("dguerra"))
+jugador.push(new Jugador(0,"dgtrabada"))
+jugador.push(new Jugador(1,"alsubias"))
+jugador.push(new Jugador(2,"pangard"))
+jugador.push(new Jugador(3,"dguerra"))
 
 
 class Carta {
@@ -44,12 +45,14 @@ class Carta {
 }
 
 var carta=[]
-
+Tx=Ty=400
 
 for (p=0;p<palo.length;p++){
   for (i=1;i<11;i++){
     // coincidencia cuatro jugadores y cuatro palos
-    carta.push( new Carta(jugador[p],200+40*i,80+p*120,palo[p],i,true,false,0) )
+    aux_x=[200+40*i,80+p*120,Tx-(200+40*i),Tx-(80+p*120)]
+    aux_y=[80+p*120,200+40*i,Tx-(80+p*120),Tx-(200+40*i)]
+    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,true,false,0) )
   }
 }
 function getRndInteger(min, max) {
@@ -76,32 +79,33 @@ barajar();
 //print_cartas();
 
 
-  id=ip=4
-  ia=ig=2
+  id=ip=ia=ig=4
 
   for(i=0;i<40;i++) {
     //console.log(carta[i].jugador.name)
     if(carta[i].jugador.name=="dgtrabada"){
       id++;
-      carta[i].y=400 ;
-      carta[i].x=40*id ;
-      }
-    if(carta[i].jugador.name=="pangard"){
-      ip++;
-      carta[i].y=40 ;
-      carta[i].x=40*ip ;
+      carta[i].x=[40*id,700,40*id,80]
+      carta[i].y=[400,25*id,40,25*id]
       }
     if(carta[i].jugador.name=="alsubias"){
       ia++;
-      carta[i].x=700 ;
-      carta[i].y=30*ia ;
+      carta[i].x=[700,40*ia,80,40*ia]
+      carta[i].y=[25*ia,40,25*ia,400]
       }
-  if(carta[i].jugador.name=="dguerra"){
-    ig++;
-    carta[i].x=80 ;
-    carta[i].y=30*ig ;
-    }
+    if(carta[i].jugador.name=="pangard"){
+     ip++;
+     carta[i].x=[40*ip,80,40*ip,700]
+     carta[i].y=[40,25*ip,400,25*ip]
+     }
+   if(carta[i].jugador.name=="dguerra"){
+     ig++;
+     carta[i].x=[80,40*ig,700,40*ig]
+     carta[i].y=[25*ig,400,25*ig,40]
+     }
   }
+
+
 
 
 io.on('connection', function (socket) {

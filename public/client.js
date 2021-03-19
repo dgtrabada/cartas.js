@@ -17,10 +17,16 @@ document.addEventListener("DOMContentLoaded", function() {
    canvas.height = height;
    var ancho = 60
    var largo = 100
+   var Tx = 400
+   var Ty = 400
 
 
-   var name = "dgtrabada"  ;
-   if(Math.floor(Math.random()*2)==0) name="pangard" ; //"X"+Math.floor(Math.random() * 10000);
+   var name = "dgtrabada";
+   var index = 0
+   if(Math.floor(Math.random()*2)==0) {
+     name="dguerra" ; //"X"+Math.floor(Math.random() * 10000);
+     index = 3;
+   }
 
    /*
    name=prompt("Please enter your name:", name);
@@ -37,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
    mouse.pos.x = e.clientX ;
    mouse.pos.y = e.clientY ;
    for (i=0;i<carta.length;i++) {
-     if(mouse.pos.x>carta[i].x && mouse.pos.x<(carta[i].x+ancho) && mouse.pos.y>carta[i].y && mouse.pos.y<(carta[i].y+largo)){
+     if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
        carta[i].seleccionada=true;
        i=carta.length
        }
@@ -56,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
      mouse.pos.x = e.clientX ;
      mouse.pos.y = e.clientY ;
      for (i=0;i<carta.length;i++) {
-       if(mouse.pos.x>carta[i].x && mouse.pos.x<(carta[i].x+ancho) && mouse.pos.y>carta[i].y && mouse.pos.y<(carta[i].y+largo)){
+       if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
          carta[i].up=!(carta[i].up);
 
          }
@@ -93,40 +99,61 @@ document.addEventListener("DOMContentLoaded", function() {
 
    for (i=0;i<carta.length;i++) {
      if(carta[i].seleccionada && mouse.click ){
-       carta[i].x=mouse.pos.x-ancho/2;
-       carta[i].y=mouse.pos.y-largo/2;
+    //   carta[i].x[index]=mouse.pos.x-ancho/2;
+    //   carta[i].y[index]=mouse.pos.y-largo/2;
+//if(index == 0){
+    //   aux_x=[(mouse.pos.x-ancho/2),(mouse.pos.y-largo/2),(Tx-mouse.pos.x-ancho/2),(Tx-mouse.pos.y-largo/2)];
+//carta[i].x=aux_x;
+    //   aux_y=[(mouse.pos.y-largo/2),(mouse.pos.x-ancho/2),(Ty-mouse.pos.y-largo/2),(Ty-mouse.pos.x-ancho/2)];
+    //   carta[i].y=aux_y;
+    if(index == 0){
+          carta[i].x[0]=mouse.pos.x-ancho/2;
+          carta[i].y[0]=mouse.pos.y-largo/2;
+          carta[i].x[2]=mouse.pos.x-ancho/2;
+          carta[i].y[2]=Ty+largo*3/2-mouse.pos.y-largo/2;
+        }
+        if(index == 2){
+              carta[i].x[0]=mouse.pos.x-ancho/2;
+              carta[i].y[0]=Ty+largo*3/2-mouse.pos.y-largo/2;
+              carta[i].x[2]=mouse.pos.x-ancho/2;
+              carta[i].y[2]=mouse.pos.y-largo/2;
+            }
+        //  carta[i].x[2]=mouse.pos.x-ancho/2;
+        //  carta[i].y[2]=Ty-(mouse.pos.y-largo/2);
+  //   }
       }
+
       context.beginPath();
       context.fillStyle = "rgb(255,255,255)"
-      context.fillRect (carta[i].x, carta[i].y, ancho, largo);
+      context.fillRect (carta[i].x[index], carta[i].y[index], ancho, largo);
       context.fill();
       context.closePath();
 
-      if(carta[i].up && carta[i].jugador.name == name){
+    if(carta[i].up && carta[i].jugador.name == name){
       context.font = "12px Arial";
       if(carta[i].palo=="espadas")context.fillStyle = "#0095DD";
       if(carta[i].palo=="bastos")context.fillStyle = "#7D210E";
       if(carta[i].palo=="oros")context.fillStyle = " #E5CA3E";
       if(carta[i].palo=="copas")context.fillStyle = "#E5573E";
-      context.fillText(carta[i].label, carta[i].x, carta[i].y+12);
-      context.fillText(carta[i].jugador.name, carta[i].x, carta[i].y+22);
+      context.fillText(carta[i].label, carta[i].x[index], carta[i].y[index]+12);
+      context.fillText(carta[i].jugador.name, carta[i].x[index], carta[i].y[index]+22);
       context.font = "55px Arial";
-      context.fillText(carta[i].n,carta[i].x+10, carta[i].y+80);
+      context.fillText(carta[i].n,carta[i].x[index]+10, carta[i].y[index]+80);
     }else{
-        context.fillStyle = "#787274";
-      context.fillRect (carta[i].x, carta[i].y, ancho, largo);
-       context.fillStyle = "yellow";
-       context.font = "12px Arial";
-      context.fillText(carta[i].jugador.name, carta[i].x, carta[i].y+22);
+      context.fillStyle = "#787274";
+      context.fillRect (carta[i].x[index], carta[i].y[index], ancho, largo);
+      context.fillStyle = "yellow";
+      context.font = "12px Arial";
+      context.fillText(carta[i].jugador.name, carta[i].x[index], carta[i].y[index]+22);
     }
       context.beginPath();
       if(carta[i].seleccionada){
         context.strokeStyle = "red";
       }else{
         context.strokeStyle = "black";}
-        context.rect(carta[i].x, carta[i].y, ancho, largo);
+        context.rect(carta[i].x[index], carta[i].y[index], ancho, largo);
         context.stroke();
-      //context.fillText("carta "+i+" : "+parseInt(carta[i].x)+","+parseInt(carta[i].y), 8,40+i*20);
+      //context.fillText("carta "+i+" : "+parseInt(carta[i].x[index])+","+parseInt(carta[i].y[index]), 8,40+i*20);
      }
 
 
