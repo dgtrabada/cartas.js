@@ -19,15 +19,22 @@ document.addEventListener("DOMContentLoaded", function() {
    var largo = 100
    var Tx = 600
    var Ty = 600
-   var mensaje = "test"
+   var mensaje = "inicio de partida"
+
+   class Jugador {
+     constructor(index,name){
+       this.name=name
+       this.index=index
+     }
+   }
+   var jugador=[]
+   jugador.push(new Jugador(0,"dgtrabada"))
+   jugador.push(new Jugador(1,"alsubias"))
+   jugador.push(new Jugador(2,"pangard"))
+   jugador.push(new Jugador(3,"dguerra"))
 
 
-   var name = "dgtrabada";
    var index = Math.floor(Math.random()*4)
-   if( index == 0 )  name = "dgtrabada";
-   if( index == 1 )  name = "alsubias";
-   if( index == 2 )  name = "pangard";
-   if( index == 3 )  name = "dguerra";
 
    /*
    name=prompt("Please enter your name:", name);
@@ -37,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
      txt = "Hello " + name + "! How are you today?";
    }
    */
-   socket.emit('name', {  name : name });
+   socket.emit('name', {  name : jugador[index].name });
    // register mouse event handlers
    canvas.onmousedown = function(e){
    mouse.click = true;
@@ -146,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function() {
    context.lineWidth = 1;
    context.font = "14px Arial";
    context.fillStyle = "#0095DD";
-   context.fillText("name = "+name,8,20);
+   context.fillText("name = "+jugador[index].name,8,20);
    //context.fillText("("+parseInt(mouse.pos.x)+","+parseInt(mouse.pos.y)+")", 8,20);
    context.font = "12px Arial";
    context.fillStyle = "#0095DD";
@@ -217,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function() {
        context.fill();
        context.closePath();
 
-      if((carta[i].up && carta[i].jugador.name == name)||carta[i].tirada==true){
+      if((carta[i].up && carta[i].jugador.name == jugador[index].name)||carta[i].tirada==true){
       context.font = "12px Arial";
       if(carta[i].palo=="espadas")context.fillStyle = "#0095DD";
       if(carta[i].palo=="bastos")context.fillStyle = "#7D210E";

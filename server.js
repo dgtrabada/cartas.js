@@ -19,7 +19,6 @@ class Jugador {
     this.index=index
   }
 }
-
 var jugador=[]
 jugador.push(new Jugador(0,"dgtrabada"))
 jugador.push(new Jugador(1,"alsubias"))
