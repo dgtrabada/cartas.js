@@ -131,7 +131,7 @@ io.on('connection', function (socket) {
 
   socket.emit('escena', { carta : carta } );
   socket.on('escena', function (data) {
-  //  print_cartas();
+  // print_cartas();
 //  for(var i in data.carta){console.log("carta "+i+" : "+parseInt(data.carta[i].x)+","+parseInt(data.carta[i].y), 8,40+i*20);}
   io.emit('escena',  { carta : data.carta });
   carta=data.carta;

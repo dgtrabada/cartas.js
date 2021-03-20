@@ -58,9 +58,15 @@ document.addEventListener("DOMContentLoaded", function() {
          }
        }
      }
+     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >520 &&  mouse.pos.y <545 ){
+
+       llevar_cartas()
+     }
+
      if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >560 &&  mouse.pos.y <585 ){
        llevar_cartas()
      }
+
     };
    canvas.onmouseup = function(e){
       mouse.click = false;
@@ -125,6 +131,7 @@ function poner_mensaje(){
         if(carta[i].jugador.name==jugador[j].name && carta[i].n=="S")p=p+2
         if(carta[i].jugador.name==jugador[j].name && carta[i].n=="C")p=p+3
         if(carta[i].jugador.name==jugador[j].name && carta[i].n=="R")p=p+4
+        if(carta[i].jugador.name==jugador[j].name && carta[i].n==40)p=p+40
       }
     }
   mensaje=mensaje+" : "+p+" ; "
@@ -132,15 +139,29 @@ function poner_mensaje(){
 }
 
  function botones(){
-   context.fillStyle = "red"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >520 &&  mouse.pos.y <545 ){context.fillStyle = "orange"}
+   context.fillStyle = "rgb(255, 191, 0)"
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >440 &&  mouse.pos.y <465 ){context.fillStyle = "	rgb(255, 0, 0)"}
+   context.beginPath();
+   context.fillRect (630, 440,25,25);
+   context.fill();
+   context.closePath();
+   context.stroke();
+   context.fillStyle = "rgb(191, 255, 0)"
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >480 &&  mouse.pos.y <505 ){context.fillStyle = "rgb(0, 255, 64)"}
+   context.beginPath();
+   context.fillRect  (630, 480,25,25);
+   context.fill();
+   context.closePath();
+   context.stroke();
+   context.fillStyle = "rgb(255, 0, 255)"
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >520 &&  mouse.pos.y <545 ){context.fillStyle = "rgb(191, 0, 255)"}
    context.beginPath();
    context.fillRect (630, 520,25,25);
    context.fill();
    context.closePath();
    context.stroke();
-   context.fillStyle = "blue"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >560 &&  mouse.pos.y <585 ){context.fillStyle = "navy"}
+   context.fillStyle = "rgb(0, 255, 255)"
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >560 &&  mouse.pos.y <585 ){context.fillStyle = "rgb(64, 0, 255)"}
    context.beginPath();
    context.fillRect  (630, 560,25,25);
    context.fill();
@@ -169,6 +190,12 @@ function poner_mensaje(){
       context.stroke();
 
       botones();
+      context.font = "14px Arial";
+      context.fillStyle = "#0095DD";
+      context.fillText("Renuncio",660,460);
+      context.fillText("Cantar 20",660,500);
+      context.fillText("Cantar 40",660,540);
+      context.fillText("Llevar cartas",660,580);
  }
 
  function drawCartas(){
