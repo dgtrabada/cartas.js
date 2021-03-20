@@ -28,7 +28,7 @@ jugador.push(new Jugador(3,"dguerra"))
 
 
 class Carta {
-  constructor(jugador,x,y,palo,n,up,seleccionada,giro) {
+  constructor(jugador,x,y,palo,n,up,seleccionada,tirada) {
     this.x = x;
     this.y = y;
     this.palo = palo;
@@ -39,12 +39,14 @@ class Carta {
     this.seleccionada = seleccionada;
     this.up = up
     this.label = this.n+" "+this.palo;
-    this.giro = giro
     this.jugador=jugador
+    this.tirada = tirada;
   }
 }
 
 var carta=[]
+var ancho = 60
+var largo = 100
 Tx=Ty=600
 
 for (p=0;p<palo.length;p++){
@@ -52,7 +54,7 @@ for (p=0;p<palo.length;p++){
     // coincidencia cuatro jugadores y cuatro palos
     aux_x=[200+40*i,80+p*120,Tx-(200+40*i),Tx-(80+p*120)]
     aux_y=[80+p*120,200+40*i,Tx-(80+p*120),Tx-(200+40*i)]
-    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,true,false,0) )
+    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,true,false,false) )
   }
 }
 function getRndInteger(min, max) {
@@ -79,29 +81,29 @@ barajar();
 //print_cartas();
 
 
-  id=ip=ia=ig=4
+  id=ip=ia=ig=5
 
   for(i=0;i<40;i++) {
     //console.log(carta[i].jugador.name)
     if(carta[i].jugador.name=="dgtrabada"){
       id++;
-      carta[i].x=[30*id,500,30*id,80]
-      carta[i].y=[500,25*id,40,25*id]
+      carta[i].x=[Tx/24*id,(Tx-ancho),Tx/24*id,ancho]
+      carta[i].y=[(Ty-largo),Ty/24*id,largo/2,Ty/24*id]
       }
     if(carta[i].jugador.name=="alsubias"){
       ig++;
-      carta[i].x=[80,30*ig,500,30*ig]
-      carta[i].y=[25*ig,500,25*ig,40]
+      carta[i].x=[ancho,Tx/24*ig,(Tx-ancho),Tx/24*ig]
+      carta[i].y=[Ty/24*ig,(Ty-largo),Ty/24*ig,largo/2]
       }
     if(carta[i].jugador.name=="pangard"){
      ip++;
-     carta[i].x=[30*ip,80,30*ip,500]
-     carta[i].y=[40,25*ip,500,25*ip]
+     carta[i].x=[Tx/24*ip,ancho,Tx/24*ip,(Tx-ancho)]
+     carta[i].y=[largo/2,Ty/24*ip,(Ty-largo),Ty/24*ip]
      }
    if(carta[i].jugador.name=="dguerra"){
      ia++;
-     carta[i].x=[500,30*ia,80,30*ia]
-     carta[i].y=[25*ia,40,25*ia,500]
+     carta[i].x=[(Tx-ancho),25*ia,ancho,25*ia]
+     carta[i].y=[25*ia,largo/2,25*ia,(Ty-largo)]
      }
   }
 
