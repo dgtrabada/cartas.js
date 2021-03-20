@@ -19,14 +19,15 @@ document.addEventListener("DOMContentLoaded", function() {
    var largo = 100
    var Tx = 600
    var Ty = 600
+   var mensaje = "test"
 
 
    var name = "dgtrabada";
    var index = Math.floor(Math.random()*4)
-   if(index == 0 )  name = "dgtrabada";
-   if(index == 1 )  name = "alsubias";
-   if(index == 2 )  name = "pangard";
-   if(index == 3)  name = "dguerra";
+   if( index == 0 )  name = "dgtrabada";
+   if( index == 1 )  name = "alsubias";
+   if( index == 2 )  name = "pangard";
+   if( index == 3 )  name = "dguerra";
 
    /*
    name=prompt("Please enter your name:", name);
@@ -43,9 +44,11 @@ document.addEventListener("DOMContentLoaded", function() {
    mouse.pos.x = e.clientX ;
    mouse.pos.y = e.clientY ;
    for (i=0;i<carta.length;i++) {
-     if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
-       carta[i].seleccionada=true;
-       i=carta.length
+    if(carta[i].visible){
+       if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
+         carta[i].seleccionada=true;
+         i=carta.length
+         }
        }
      }
     };
@@ -68,11 +71,16 @@ document.addEventListener("DOMContentLoaded", function() {
      mouse.pos.x = e.clientX ;
      mouse.pos.y = e.clientY ;
      for (i=0;i<carta.length;i++) {
-       if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
-         carta[i].up=!(carta[i].up);
-
-         }
-       }
+      if(carta[i].visible){
+         if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
+          carta[i].up=!(carta[i].up);
+          }
+        }
+      }
+      if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >560 &&  mouse.pos.y <585 ){
+        mensaje="llevar cartas"
+        llevar_cartas()
+      }
       socket.emit('escena', {  carta : carta });
       drawCartas()
     };
@@ -83,7 +91,31 @@ document.addEventListener("DOMContentLoaded", function() {
       mouse.pos.y = e.clientY;
       mouse.move = true;
       if(mouse.click) drawCartas()
+      botones()
    };
+
+  function llevar_cartas(){
+    for (i=0;i<carta.length;i++) {
+      if (carta[i].tirada) carta[i].visible=false;
+    }
+  }
+
+ function botones(){
+   context.fillStyle = "red"
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >520 &&  mouse.pos.y <545 ){context.fillStyle = "orange"}
+   context.beginPath();
+   context.fillRect (630, 520,25,25);
+   context.fill();
+   context.closePath();
+   context.stroke();
+   context.fillStyle = "blue"
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >560 &&  mouse.pos.y <585 ){context.fillStyle = "navy"}
+   context.beginPath();
+   context.fillRect  (630, 560,25,25);
+   context.fill();
+   context.closePath();
+   context.stroke();
+ }
 
  function borrar(){
       context.beginPath();
@@ -94,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
       // dibujamos la mesa
       context.beginPath();
       context.fillStyle = "green"
-      context.fillRect (50, 50, 550, 550);
+      context.fillRect (50, 50, 560, 550);
       context.fill();
       context.closePath();
       context.beginPath();
@@ -104,35 +136,39 @@ document.addEventListener("DOMContentLoaded", function() {
       context.lineWidth = 5;
       context.strokeStyle = '#003300';
       context.stroke();
+
+      botones();
  }
 
  function drawCartas(){
 
    borrar()
    context.lineWidth = 1;
-   context.font = "16px Arial";
+   context.font = "14px Arial";
    context.fillStyle = "#0095DD";
-   context.fillText("("+parseInt(mouse.pos.x)+","+parseInt(mouse.pos.y)+")", 8,20);
+   context.fillText("name = "+name,8,20);
+   //context.fillText("("+parseInt(mouse.pos.x)+","+parseInt(mouse.pos.y)+")", 8,20);
    context.font = "12px Arial";
    context.fillStyle = "#0095DD";
-   context.fillText("name = "+name,8,40);
+   context.fillText(mensaje,8,40);
 
    for (i=0;i<carta.length;i++) {
-     if(carta[i].seleccionada && mouse.click ){
-    if(index == 0){
-          carta[i].x[0]=mouse.pos.x-ancho/2;
-          carta[i].y[0]=mouse.pos.y-largo/2;
+   if(carta[i].visible){
+       if(carta[i].seleccionada && mouse.click ){
+         if(index == 0){
+           carta[i].x[0]=mouse.pos.x-ancho/2;
+           carta[i].y[0]=mouse.pos.y-largo/2;
 
-          carta[i].x[1]=mouse.pos.y;
-          carta[i].y[1]=Ty-mouse.pos.x+ancho/2;
+           carta[i].x[1]=mouse.pos.y;
+           carta[i].y[1]=Ty-mouse.pos.x+ancho/2;
 
-          carta[i].x[2]=Tx-mouse.pos.x+ancho/2;
-          carta[i].y[2]=Ty-mouse.pos.y;
+           carta[i].x[2]=Tx-mouse.pos.x+ancho/2;
+           carta[i].y[2]=Ty-mouse.pos.y;
 
           carta[i].x[3]=Tx-mouse.pos.y;
           carta[i].y[3]=mouse.pos.x-largo/2;
         }
-        if(index == 3){
+         if(index == 3){
           carta[i].x[3]=mouse.pos.x-ancho/2;
           carta[i].y[3]=mouse.pos.y-largo/2;
 
@@ -145,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function() {
           carta[i].x[2]=Tx-mouse.pos.y;
           carta[i].y[2]=mouse.pos.x-largo/2;
             }
-        if(index == 2){
+         if(index == 2){
           carta[i].x[2]=mouse.pos.x-ancho/2;
           carta[i].y[2]=mouse.pos.y-largo/2;
 
@@ -158,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function() {
           carta[i].x[1]=Tx-mouse.pos.y;
           carta[i].y[1]=mouse.pos.x-largo/2;
             }
-            if(index == 1){
+         if(index == 1){
               carta[i].x[1]=mouse.pos.x-ancho/2;
               carta[i].y[1]=mouse.pos.y-largo/2;
 
@@ -171,49 +207,54 @@ document.addEventListener("DOMContentLoaded", function() {
               carta[i].x[0]=Tx-mouse.pos.y;
               carta[i].y[0]=mouse.pos.x-largo/2;
                 }
-        //  carta[i].x[2]=mouse.pos.x-ancho/2;
-        //  carta[i].y[2]=Ty-(mouse.pos.y-largo/2);
-  //   }
-      }
+         //  carta[i].x[2]=mouse.pos.x-ancho/2;
+         //  carta[i].y[2]=Ty-(mouse.pos.y-largo/2);
+         //   }
+        }
+       context.beginPath();
+       context.fillStyle = "rgb(255,255,255)"
+       context.fillRect (carta[i].x[index], carta[i].y[index], ancho, largo);
+       context.fill();
+       context.closePath();
 
-      context.beginPath();
-      context.fillStyle = "rgb(255,255,255)"
-      context.fillRect (carta[i].x[index], carta[i].y[index], ancho, largo);
-      context.fill();
-      context.closePath();
-
-    if((carta[i].up && carta[i].jugador.name == name)||carta[i].tirada==true){
+      if((carta[i].up && carta[i].jugador.name == name)||carta[i].tirada==true){
       context.font = "12px Arial";
       if(carta[i].palo=="espadas")context.fillStyle = "#0095DD";
       if(carta[i].palo=="bastos")context.fillStyle = "#7D210E";
       if(carta[i].palo=="oros")context.fillStyle = " #E5CA3E";
       if(carta[i].palo=="copas")context.fillStyle = "#E5573E";
       context.fillText(carta[i].label, carta[i].x[index], carta[i].y[index]+12);
-      if(carta[i].tirada==false){
-        context.fillText(carta[i].jugador.name, carta[i].x[index], carta[i].y[index]+22);
-      }
+  //    if(carta[i].tirada==false){
+    //    context.fillText(carta[i].jugador.name, carta[i].x[index], carta[i].y[index]+22);
+    //  }
      context.font = "55px Arial";
      context.fillText(carta[i].n,carta[i].x[index]+10, carta[i].y[index]+80);
-    }else{
-      context.fillStyle = "#787274";
-      context.fillRect (carta[i].x[index], carta[i].y[index], ancho, largo);
-      context.fillStyle = "LightGray";
-      context.font = "12px Arial";
-      context.fillText(carta[i].jugador.name, carta[i].x[index], carta[i].y[index]+22);
-    }
+      }else{
+        context.fillStyle = "grey";
+        context.fillRect (carta[i].x[index], carta[i].y[index], ancho, largo);
+        context.fillStyle = "LightGray";
+        context.font = "12px Arial";
+        context.fillText(carta[i].jugador.name, carta[i].x[index], carta[i].y[index]+22);
+      }
       context.beginPath();
+
       if(carta[i].seleccionada){
         if((Math.pow(carta[i].x[index]-330,2)+(Math.pow(carta[i].y[index]-325,2)))>Math.pow(160,2)){
           context.strokeStyle = "blue";
-        }else{context.strokeStyle = "red";}
+        }else{
+          context.strokeStyle = "red";}
       }else{
-        context.strokeStyle = "black";}
-        context.rect(carta[i].x[index], carta[i].y[index], ancho, largo);
-        context.stroke();
+        if(carta[i].tirada) {
+          context.strokeStyle = "green";
+         }else{
+            context.strokeStyle = "black";
+         }
+      }
+      context.rect(carta[i].x[index], carta[i].y[index], ancho, largo);
+      context.stroke();
       //context.fillText("carta "+i+" : "+parseInt(carta[i].x[index])+","+parseInt(carta[i].y[index]), 8,40+i*20);
      }
-
-
+   }
  }
 
 	socket.on('escena', function (data) {

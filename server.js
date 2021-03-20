@@ -28,7 +28,7 @@ jugador.push(new Jugador(3,"dguerra"))
 
 
 class Carta {
-  constructor(jugador,x,y,palo,n,up,seleccionada,tirada) {
+  constructor(jugador,x,y,palo,n,up,seleccionada,tirada,visible) {
     this.x = x;
     this.y = y;
     this.palo = palo;
@@ -39,8 +39,9 @@ class Carta {
     this.seleccionada = seleccionada;
     this.up = up
     this.label = this.n+" "+this.palo;
-    this.jugador=jugador
+    this.jugador=jugador;
     this.tirada = tirada;
+    this.visible = visible;
   }
 }
 
@@ -54,7 +55,7 @@ for (p=0;p<palo.length;p++){
     // coincidencia cuatro jugadores y cuatro palos
     aux_x=[200+40*i,80+p*120,Tx-(200+40*i),Tx-(80+p*120)]
     aux_y=[80+p*120,200+40*i,Tx-(80+p*120),Tx-(200+40*i)]
-    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,true,false,false) )
+    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,true,false,false,true) )
   }
 }
 function getRndInteger(min, max) {
