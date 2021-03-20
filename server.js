@@ -62,7 +62,8 @@ function getRndInteger(min, max) {
 }
 
 function print_cartas(){
-  for(i=0;i<40;i++) console.log(carta[i].jugador.name+" "+carta[i].n+" "+carta[i].palo);
+  for(i=0;i<40;i++) console.log(carta[i].jugador.name+" "+carta[i].n+" "+carta[i].palo+" "+carta[i].tirada+" "+carta[i].visible);
+console.log("-------------")
 }
 
 function barajar(){
@@ -130,6 +131,7 @@ io.on('connection', function (socket) {
 
   socket.emit('escena', { carta : carta } );
   socket.on('escena', function (data) {
+  //  print_cartas();
 //  for(var i in data.carta){console.log("carta "+i+" : "+parseInt(data.carta[i].x)+","+parseInt(data.carta[i].y), 8,40+i*20);}
   io.emit('escena',  { carta : data.carta });
   carta=data.carta;

@@ -58,6 +58,9 @@ document.addEventListener("DOMContentLoaded", function() {
          }
        }
      }
+     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >560 &&  mouse.pos.y <585 ){
+       llevar_cartas()
+     }
     };
    canvas.onmouseup = function(e){
       mouse.click = false;
@@ -72,21 +75,19 @@ document.addEventListener("DOMContentLoaded", function() {
       }
       socket.emit('escena', {  carta : carta });
       drawCartas()
+
     };
 
    canvas.ondblclick  = function(e){
      mouse.pos.x = e.clientX ;
      mouse.pos.y = e.clientY ;
+
      for (i=0;i<carta.length;i++) {
       if(carta[i].visible){
          if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
           carta[i].up=!(carta[i].up);
           }
         }
-      }
-      if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >560 &&  mouse.pos.y <585 ){
-        mensaje="llevar cartas"
-        llevar_cartas()
       }
       socket.emit('escena', {  carta : carta });
       drawCartas()
@@ -103,9 +104,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function llevar_cartas(){
     for (i=0;i<carta.length;i++) {
-      if (carta[i].tirada) carta[i].visible=false;
+      if (carta[i].tirada){
+        carta[i].visible=false;
+        carta[i].tirada=false;
+        carta[i].jugador=jugador[index];
+        socket.emit('escena', {  carta : carta });
+      }
     }
-  }
+    }
+
+function poner_mensaje(){
+  mensaje="";
+  for (j=0;j<jugador.length;j++){
+    mensaje=mensaje+" "+jugador[j].name
+    p=0
+    for (i=0;i<carta.length;i++){
+      if (carta[i].visible==false){
+        if(carta[i].jugador.name==jugador[j].name && carta[i].n==1)p=p+11
+        if(carta[i].jugador.name==jugador[j].name && carta[i].n==3)p=p+10
+        if(carta[i].jugador.name==jugador[j].name && carta[i].n=="S")p=p+2
+        if(carta[i].jugador.name==jugador[j].name && carta[i].n=="C")p=p+3
+        if(carta[i].jugador.name==jugador[j].name && carta[i].n=="R")p=p+4
+      }
+    }
+  mensaje=mensaje+" : "+p+" ; "
+ }
+}
 
  function botones(){
    context.fillStyle = "red"
@@ -157,6 +181,7 @@ document.addEventListener("DOMContentLoaded", function() {
    //context.fillText("("+parseInt(mouse.pos.x)+","+parseInt(mouse.pos.y)+")", 8,20);
    context.font = "12px Arial";
    context.fillStyle = "#0095DD";
+   poner_mensaje();
    context.fillText(mensaje,8,40);
 
    for (i=0;i<carta.length;i++) {
@@ -202,18 +227,18 @@ document.addEventListener("DOMContentLoaded", function() {
           carta[i].y[1]=mouse.pos.x-largo/2;
             }
          if(index == 1){
-              carta[i].x[1]=mouse.pos.x-ancho/2;
-              carta[i].y[1]=mouse.pos.y-largo/2;
+           carta[i].x[1]=mouse.pos.x-ancho/2;
+           carta[i].y[1]=mouse.pos.y-largo/2;
 
-              carta[i].x[2]=mouse.pos.y;
-              carta[i].y[2]=Ty-mouse.pos.x+ancho/2;
+           carta[i].x[2]=mouse.pos.y;
+           carta[i].y[2]=Ty-mouse.pos.x+ancho/2;
 
-              carta[i].x[3]=Tx-mouse.pos.x+ancho/2;
-              carta[i].y[3]=Ty-mouse.pos.y;
+           carta[i].x[3]=Tx-mouse.pos.x+ancho/2;
+           carta[i].y[3]=Ty-mouse.pos.y;
 
-              carta[i].x[0]=Tx-mouse.pos.y;
-              carta[i].y[0]=mouse.pos.x-largo/2;
-                }
+           carta[i].x[0]=Tx-mouse.pos.y;
+           carta[i].y[0]=mouse.pos.x-largo/2;
+           }
          //  carta[i].x[2]=mouse.pos.x-ancho/2;
          //  carta[i].y[2]=Ty-(mouse.pos.y-largo/2);
          //   }
@@ -262,6 +287,7 @@ document.addEventListener("DOMContentLoaded", function() {
       //context.fillText("carta "+i+" : "+parseInt(carta[i].x[index])+","+parseInt(carta[i].y[index]), 8,40+i*20);
      }
    }
+   poner_mensaje();
  }
 
 	socket.on('escena', function (data) {
