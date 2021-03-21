@@ -18,8 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
    canvas.height = height;
    var ancho = 60
    var largo = 100
-   var Tx = 600
-   var Ty = 600
+   Tx=Ty=600
    var mensaje = "inicio de partida"
 
 
@@ -50,19 +49,23 @@ document.addEventListener("DOMContentLoaded", function() {
          }
        }
      }
-     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >440 &&  mouse.pos.y <465 ){
-       cantar_renuncio()
+     if(mouse.pos.x>630 && mouse.pos.x<655 &&  mouse.pos.y >(400-0) &&  mouse.pos.y <(400+25) ){
+       repartir();
      }
 
-     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >480 &&  mouse.pos.y <505 ){
-       jugador[index].puntos+=20
-       llevar_cartas()
+     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(440-0) &&  mouse.pos.y <(440+25) ){
+       cantar_renuncio();
      }
-     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >520 &&  mouse.pos.y <545 ){
+
+     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(480-0) &&  mouse.pos.y <(480+25) ){
+       jugador[index].puntos+=20
+       llevar_cartas();
+     }
+     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(520-0) &&  mouse.pos.y <(520+25) ){
        jugador[index].puntos+=40
        llevar_cartas()
      }
-     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >560 &&  mouse.pos.y <585 ){
+     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(560-0) &&  mouse.pos.y <(560+25) ){
        llevar_cartas()
      }
 
@@ -126,6 +129,52 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
+    function repartir(){
+      for(i=0;i<40;i++){
+          carta[i].up=true;
+          carta[i].jugador=jugador[i%4];
+          carta[i].tirada=false;
+          carta[i].visible=true;
+          }//mezclamos
+            //  socket.emit('escena', {  carta : carta });
+
+       for(i=1;i<200;i++){
+          i1 = getRndInteger(0,40);
+          i2 = getRndInteger(0,40);
+          aux = carta[i2].jugador;
+          carta[i2].jugador = carta[i1].jugador;
+          carta[i1].jugador = aux;
+        }//repartimos
+
+          id=ip=ia=ig=5
+
+          for(i=0;i<40;i++) {
+            //console.log(carta[i].jugador.name)
+            if(carta[i].jugador.name=="dgtrabada"){
+              id++;
+              carta[i].x=[0,0,0,0]//[Tx/24*id,(Tx-ancho),Tx/24*id,ancho]
+              carta[i].y=[0,0,0,0]//[(Ty-largo),Ty/24*id,largo/2,Ty/24*id]
+              }
+            if(carta[i].jugador.name=="alsubias"){
+              ig++;
+              carta[i].x=[ancho,Tx/24*ig,(Tx-ancho),Tx/24*ig]
+              carta[i].y=[Ty/24*ig,(Ty-largo),Ty/24*ig,largo/2]
+              }
+            if(carta[i].jugador.name=="pangard"){
+             ip++;
+             carta[i].x=[Tx/24*ip,ancho,Tx/24*ip,(Tx-ancho)]
+             carta[i].y=[largo/2,Ty/24*ip,(Ty-largo),Ty/24*ip]
+             }
+           if(carta[i].jugador.name=="dguerra"){
+             ia++;
+             carta[i].x=[(Tx-ancho),25*ia,ancho,25*ia]
+             carta[i].y=[25*ia,largo/2,25*ia,(Ty-largo)]
+             }
+          }
+      socket.emit('escena', {  carta : carta });
+
+    }
+
     function cantar_renuncio(){
       for (i=0;i<carta.length;i++) {
         if (carta[i].jugador.name==jugador[index].name ){
@@ -148,29 +197,37 @@ function poner_mensaje(){
 }
 
  function botones(){
+
+   context.fillStyle = "rgb(255, 255, 0)"
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(400-0) &&  mouse.pos.y <(400+25) ){context.fillStyle = "rgb(191, 255, 0)"}
+   context.beginPath();
+   context.fillRect (630, 400,25,25);
+   context.fill();
+   context.closePath();
+   context.stroke();
    context.fillStyle = "rgb(255, 191, 0)"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >440 &&  mouse.pos.y <465 ){context.fillStyle = "	rgb(255, 0, 0)"}
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(440-0) &&  mouse.pos.y <(440+25) ){context.fillStyle = "rgb(255, 0, 0)"}
    context.beginPath();
    context.fillRect (630, 440,25,25);
    context.fill();
    context.closePath();
    context.stroke();
    context.fillStyle = "rgb(191, 255, 0)"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >480 &&  mouse.pos.y <505 ){context.fillStyle = "rgb(0, 255, 64)"}
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(480-0) &&  mouse.pos.y <(480+25) ){context.fillStyle = "rgb(0, 255, 64)"}
    context.beginPath();
    context.fillRect  (630, 480,25,25);
    context.fill();
    context.closePath();
    context.stroke();
    context.fillStyle = "rgb(255, 0, 255)"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >520 &&  mouse.pos.y <545 ){context.fillStyle = "rgb(191, 0, 255)"}
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(520-0) &&  mouse.pos.y <(520+25) ){context.fillStyle = "rgb(191, 0, 255)"}
    context.beginPath();
    context.fillRect (630, 520,25,25);
    context.fill();
    context.closePath();
    context.stroke();
    context.fillStyle = "rgb(0, 255, 255)"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >560 &&  mouse.pos.y <585 ){context.fillStyle = "rgb(64, 0, 255)"}
+   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(560-0) &&  mouse.pos.y <(560+25) ){context.fillStyle = "rgb(64, 0, 255)"}
    context.beginPath();
    context.fillRect  (630, 560,25,25);
    context.fill();
@@ -201,6 +258,7 @@ function poner_mensaje(){
       botones();
       context.font = "14px Arial";
       context.fillStyle = "#0095DD";
+      context.fillText("Repartir",660,420);
       context.fillText("Renuncio",660,460);
       context.fillText("Cantar 20",660,500);
       context.fillText("Cantar 40",660,540);
