@@ -126,6 +126,9 @@ io.on('connection', function (socket) {
   socket.on('jugador', function (data) {
     io.emit('jugador',  { jugador : data.jugador });
     jugador=data.jugador;
+  //  for(j=0;j<jugador.length;j++){
+  //    console.log(jugador[j].name+" "+jugador[j].log);
+  //  }
     });
 
 });

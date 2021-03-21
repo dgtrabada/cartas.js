@@ -21,20 +21,18 @@ document.addEventListener("DOMContentLoaded", function() {
    Tx=Ty=600
    var mensaje = "inicio de partida"
 
+  // var index = Math.floor(Math.random()*4)
+
+   var index = 5;
+
+   var nombre = prompt("Please enter your name:","");
+   if(nombre == "dgtrabada") index=0
+   if(nombre == "alsubias") index=1
+   if(nombre == "pangard") index=2
+   if(nombre == "dguerra") index=3
 
 
 
-   var index = Math.floor(Math.random()*4)
-
-   /*
-   name=prompt("Please enter your name:", name);
-   if (name == null || name == "") {
-     txt = "User cancelled the prompt.";
-   } else {
-     txt = "Hello " + name + "! How are you today?";
-   }
-   */
-//   socket.emit('name', {  name : jugador[index].name });
 
    // register mouse event handlers
    canvas.onmousedown = function(e){
@@ -127,7 +125,9 @@ document.addEventListener("DOMContentLoaded", function() {
       }
      }
     }
-
+    function getRndInteger(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
 
     function repartir(){
       for(i=0;i<40;i++){
@@ -136,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function() {
           carta[i].tirada=false;
           carta[i].visible=true;
           }//mezclamos
-            //  socket.emit('escena', {  carta : carta });
 
        for(i=1;i<200;i++){
           i1 = getRndInteger(0,40);
@@ -144,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
           aux = carta[i2].jugador;
           carta[i2].jugador = carta[i1].jugador;
           carta[i1].jugador = aux;
-        }//repartimos
+          }//repartimos
 
           id=ip=ia=ig=5
 
@@ -152,8 +151,8 @@ document.addEventListener("DOMContentLoaded", function() {
             //console.log(carta[i].jugador.name)
             if(carta[i].jugador.name=="dgtrabada"){
               id++;
-              carta[i].x=[0,0,0,0]//[Tx/24*id,(Tx-ancho),Tx/24*id,ancho]
-              carta[i].y=[0,0,0,0]//[(Ty-largo),Ty/24*id,largo/2,Ty/24*id]
+              carta[i].x=[Tx/24*id,(Tx-ancho),Tx/24*id,ancho]
+              carta[i].y=[(Ty-largo),Ty/24*id,largo/2,Ty/24*id]
               }
             if(carta[i].jugador.name=="alsubias"){
               ig++;
@@ -172,6 +171,8 @@ document.addEventListener("DOMContentLoaded", function() {
              }
           }
       socket.emit('escena', {  carta : carta });
+      for (j=0;j<jugador.length;j++) {jugador[j].puntos=0 }
+      socket.emit('jugador', {  jugador : jugador });
 
     }
 
