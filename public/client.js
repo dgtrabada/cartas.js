@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
    var height  = window.innerHeight;
    var socket  = io.connect();
    var carta = [];
+   var jugador=[];
    // set canvas to full browser width/height
    canvas.width = width;
    canvas.height = height;
@@ -21,19 +22,23 @@ document.addEventListener("DOMContentLoaded", function() {
    var Ty = 600
    var mensaje = "inicio de partida"
 
+
+
+/*
+
    class Jugador {
      constructor(index,name){
        this.name=name
        this.index=index
      }
    }
-   var jugador=[]
+
    jugador.push(new Jugador(0,"dgtrabada"))
    jugador.push(new Jugador(1,"alsubias"))
    jugador.push(new Jugador(2,"pangard"))
    jugador.push(new Jugador(3,"dguerra"))
 
-
+*/
    var index = Math.floor(Math.random()*4)
 
    /*
@@ -44,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
      txt = "Hello " + name + "! How are you today?";
    }
    */
-   socket.emit('name', {  name : jugador[index].name });
+//   socket.emit('name', {  name : jugador[index].name });
    // register mouse event handlers
    canvas.onmousedown = function(e){
    mouse.click = true;
@@ -317,9 +322,11 @@ function poner_mensaje(){
    poner_mensaje();
  }
 
+ //cargamos jugadores
+ socket.on('jugador', function (data) {jugador=data.jugador });
+
 	socket.on('escena', function (data) {
     carta=data.carta
-    for(var i=0; i<data.carta.length;i++){carta[i]=data.carta[i];}
     drawCartas();
    });
 

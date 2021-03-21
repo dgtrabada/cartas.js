@@ -113,26 +113,11 @@ barajar();
 
 io.on('connection', function (socket) {
 
-  socket.on('name', function (d) {
-    var E = false
-     for (j=0;j<jugador.length;j++) if (jugador[j].name == d.name) E = true
-     if (E == false){
-       for (j=0;j<jugador.length;j++){
-         if (jugador[j].seleccionado == false){
-           jugador[j].name=d.name
-           jugador[j].seleccionado=true
-           console.log("nuevo jugador "+j+" "+jugador[j].name)
-           j=jugador.length
-           socket.emit('escena', { carta : carta } );
-          }
-      }
-    }
-  });
-
+  socket.emit('jugador', {  jugador : jugador });
   socket.emit('escena', { carta : carta } );
+
   socket.on('escena', function (data) {
   // print_cartas();
-//  for(var i in data.carta){console.log("carta "+i+" : "+parseInt(data.carta[i].x)+","+parseInt(data.carta[i].y), 8,40+i*20);}
   io.emit('escena',  { carta : data.carta });
   carta=data.carta;
 });
