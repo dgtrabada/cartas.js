@@ -14,16 +14,17 @@ console.log("Server running on 127.0.0.1:8069");
 var palo = ["oros","copas","bastos","espadas"]
 
 class Jugador {
-  constructor(index,name){
+  constructor(index,name,puntos){
     this.name=name
     this.index=index
+    this.puntos=puntos
   }
 }
 var jugador=[]
-jugador.push(new Jugador(0,"dgtrabada"))
-jugador.push(new Jugador(1,"alsubias"))
-jugador.push(new Jugador(2,"pangard"))
-jugador.push(new Jugador(3,"dguerra"))
+jugador.push(new Jugador(0,"dgtrabada",0))
+jugador.push(new Jugador(1,"alsubias",0))
+jugador.push(new Jugador(2,"pangard",0))
+jugador.push(new Jugador(3,"dguerra",0))
 
 
 class Carta {
@@ -117,9 +118,14 @@ io.on('connection', function (socket) {
   socket.emit('escena', { carta : carta } );
 
   socket.on('escena', function (data) {
-  // print_cartas();
-  io.emit('escena',  { carta : data.carta });
-  carta=data.carta;
-});
+    // print_cartas();
+    io.emit('escena',  { carta : data.carta });
+    carta=data.carta;
+    });
+
+  socket.on('jugador', function (data) {
+    io.emit('jugador',  { jugador : data.jugador });
+    jugador=data.jugador;
+    });
 
 });

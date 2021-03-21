@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
    }
    */
 //   socket.emit('name', {  name : jugador[index].name });
+
    // register mouse event handlers
    canvas.onmousedown = function(e){
    mouse.click = true;
@@ -63,11 +64,14 @@ document.addEventListener("DOMContentLoaded", function() {
          }
        }
      }
-     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >520 &&  mouse.pos.y <545 ){
-
+     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >480 &&  mouse.pos.y <505 ){
+       jugador[index].puntos+=20
        llevar_cartas()
      }
-
+     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >520 &&  mouse.pos.y <545 ){
+       jugador[index].puntos+=40
+       llevar_cartas()
+     }
      if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >560 &&  mouse.pos.y <585 ){
        llevar_cartas()
      }
@@ -119,7 +123,14 @@ document.addEventListener("DOMContentLoaded", function() {
         carta[i].visible=false;
         carta[i].tirada=false;
         carta[i].jugador=jugador[index];
-        socket.emit('escena', {  carta : carta });
+
+        if(carta[i].n==1)jugador[index].puntos+=11
+        if(carta[i].n==3)jugador[index].puntos+=10
+        if(carta[i].n=="S")jugador[index].puntos+=2
+        if(carta[i].n=="C")jugador[index].puntos+=3
+        if(carta[i].n=="R")jugador[index].puntos+=4
+
+        socket.emit('jugador', {  jugador : jugador });
       }
     }
     }
@@ -127,19 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function poner_mensaje(){
   mensaje="";
   for (j=0;j<jugador.length;j++){
-    mensaje=mensaje+" "+jugador[j].name
-    p=0
-    for (i=0;i<carta.length;i++){
-      if (carta[i].visible==false){
-        if(carta[i].jugador.name==jugador[j].name && carta[i].n==1)p=p+11
-        if(carta[i].jugador.name==jugador[j].name && carta[i].n==3)p=p+10
-        if(carta[i].jugador.name==jugador[j].name && carta[i].n=="S")p=p+2
-        if(carta[i].jugador.name==jugador[j].name && carta[i].n=="C")p=p+3
-        if(carta[i].jugador.name==jugador[j].name && carta[i].n=="R")p=p+4
-        if(carta[i].jugador.name==jugador[j].name && carta[i].n==40)p=p+40
-      }
-    }
-  mensaje=mensaje+" : "+p+" ; "
+    mensaje=mensaje+" "+jugador[j].name+" "+jugador[j].puntos
  }
 }
 
