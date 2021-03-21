@@ -24,21 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-/*
 
-   class Jugador {
-     constructor(index,name){
-       this.name=name
-       this.index=index
-     }
-   }
-
-   jugador.push(new Jugador(0,"dgtrabada"))
-   jugador.push(new Jugador(1,"alsubias"))
-   jugador.push(new Jugador(2,"pangard"))
-   jugador.push(new Jugador(3,"dguerra"))
-
-*/
    var index = Math.floor(Math.random()*4)
 
    /*
@@ -64,6 +50,10 @@ document.addEventListener("DOMContentLoaded", function() {
          }
        }
      }
+     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >440 &&  mouse.pos.y <465 ){
+       cantar_renuncio()
+     }
+
      if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >480 &&  mouse.pos.y <505 ){
        jugador[index].puntos+=20
        llevar_cartas()
@@ -132,8 +122,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
         socket.emit('jugador', {  jugador : jugador });
       }
+     }
     }
-    }
+
+
+    function cantar_renuncio(){
+      for (i=0;i<carta.length;i++) {
+        if (carta[i].jugador.name==jugador[index].name ){
+          for (j=0;j<jugador.length;j++){
+            carta[i].x[j]=300+20-Math.floor(Math.random()*40)
+            carta[i].y[j]=300+20-Math.floor(Math.random()*40)
+            carta[i].tirada=true
+            }
+          }
+        }
+        socket.emit('escena', {  carta : carta });
+        drawCartas()
+     }
 
 function poner_mensaje(){
   mensaje="";
