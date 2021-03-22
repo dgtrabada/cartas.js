@@ -130,5 +130,7 @@ io.on('connection', function (socket) {
   //    console.log(jugador[j].name+" "+jugador[j].log);
   //  }
     });
+ 
+   socket.on('loggin', function (data) { console.log(data) ; });
 
 });

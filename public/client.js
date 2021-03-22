@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
    if(nombre == "pangard") index=2
    if(nombre == "alsubias") index=3
 
+   socket.emit('loggin', {  nombre : nombre });
 
 
 
