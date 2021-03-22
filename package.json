@@ -3,7 +3,7 @@
    "description": "juego de cartas multijugador",
    "author": "dgtrabada",
    "dependencies": {
-      "and": "0.0.3",
+      "and": "^0.0.3",
       "express": "^4.17.1",
       "socket.io": "^4.0.0"
    }

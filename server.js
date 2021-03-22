@@ -22,9 +22,9 @@ class Jugador {
 }
 var jugador=[]
 jugador.push(new Jugador(0,"dgtrabada",0))
-jugador.push(new Jugador(1,"alsubias",0))
+jugador.push(new Jugador(1,"dguerra",0))
 jugador.push(new Jugador(2,"pangard",0))
-jugador.push(new Jugador(3,"dguerra",0))
+jugador.push(new Jugador(3,"alsubias",0))
 
 
 class Carta {
@@ -92,7 +92,7 @@ barajar();
       carta[i].x=[Tx/24*id,(Tx-ancho),Tx/24*id,ancho]
       carta[i].y=[(Ty-largo),Ty/24*id,largo/2,Ty/24*id]
       }
-    if(carta[i].jugador.name=="alsubias"){
+    if(carta[i].jugador.name=="dguerra"){
       ig++;
       carta[i].x=[ancho,Tx/24*ig,(Tx-ancho),Tx/24*ig]
       carta[i].y=[Ty/24*ig,(Ty-largo),Ty/24*ig,largo/2]
@@ -102,7 +102,7 @@ barajar();
      carta[i].x=[Tx/24*ip,ancho,Tx/24*ip,(Tx-ancho)]
      carta[i].y=[largo/2,Ty/24*ip,(Ty-largo),Ty/24*ip]
      }
-   if(carta[i].jugador.name=="dguerra"){
+   if(carta[i].jugador.name=="alsubias"){
      ia++;
      carta[i].x=[(Tx-ancho),25*ia,ancho,25*ia]
      carta[i].y=[25*ia,largo/2,25*ia,(Ty-largo)]

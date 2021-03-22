@@ -27,9 +27,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
    var nombre = prompt("Please enter your name:","");
    if(nombre == "dgtrabada") index=0
-   if(nombre == "alsubias") index=1
+   if(nombre == "dguerra") index=1
    if(nombre == "pangard") index=2
-   if(nombre == "dguerra") index=3
+   if(nombre == "alsubias") index=3
 
 
 
@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
               carta[i].x=[Tx/24*id,(Tx-ancho),Tx/24*id,ancho]
               carta[i].y=[(Ty-largo),Ty/24*id,largo/2,Ty/24*id]
               }
-            if(carta[i].jugador.name=="alsubias"){
+            if(carta[i].jugador.name=="dguerra"){
               ig++;
               carta[i].x=[ancho,Tx/24*ig,(Tx-ancho),Tx/24*ig]
               carta[i].y=[Ty/24*ig,(Ty-largo),Ty/24*ig,largo/2]
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function() {
              carta[i].x=[Tx/24*ip,ancho,Tx/24*ip,(Tx-ancho)]
              carta[i].y=[largo/2,Ty/24*ip,(Ty-largo),Ty/24*ip]
              }
-           if(carta[i].jugador.name=="dguerra"){
+           if(carta[i].jugador.name=="alsubias"){
              ia++;
              carta[i].x=[(Tx-ancho),25*ia,ancho,25*ia]
              carta[i].y=[25*ia,largo/2,25*ia,(Ty-largo)]
