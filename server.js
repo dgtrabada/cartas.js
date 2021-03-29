@@ -14,21 +14,23 @@ console.log("Server running on 127.0.0.1:8069");
 var palo = ["oros","copas","bastos","espadas"]
 
 class Jugador {
-  constructor(index,name,puntos){
+  constructor(index,name,puntos,reparte,cantes){
     this.name=name
     this.index=index
     this.puntos=puntos
+    this.reparte=reparte
+    this.cantes=cantes
   }
 }
 var jugador=[]
-jugador.push(new Jugador(0,"dgtrabada",0))
-jugador.push(new Jugador(1,"dguerra",0))
-jugador.push(new Jugador(2,"pangard",0))
-jugador.push(new Jugador(3,"alsubias",0))
+jugador.push(new Jugador(0,"dgtrabada",0,false,""))
+jugador.push(new Jugador(1,"dguerra",0,false,""))
+jugador.push(new Jugador(2,"pangard",0,false,""))
+jugador.push(new Jugador(3,"alsubias",0,false,""))
 
 
 class Carta {
-  constructor(jugador,x,y,palo,n,up,seleccionada,tirada,visible) {
+  constructor(jugador,x,y,palo,n,up,seleccionada_por,tirada,visible) {
     this.x = x;
     this.y = y;
     this.palo = palo;
@@ -36,7 +38,7 @@ class Carta {
     if(n==8) this.n = "S";
     if(n==9) this.n = "C";
     if(n==10) this.n = "R";
-    this.seleccionada = seleccionada;
+    this.seleccionada_por = seleccionada_por;
     this.up = up
     this.label = this.n+" "+this.palo;
     this.jugador=jugador;
@@ -55,7 +57,7 @@ for (p=0;p<palo.length;p++){
     // coincidencia cuatro jugadores y cuatro palos
     aux_x=[200+40*i,80+p*120,Tx-(200+40*i),Tx-(80+p*120)]
     aux_y=[80+p*120,200+40*i,Tx-(80+p*120),Tx-(200+40*i)]
-    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,true,false,false,true) )
+    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,true,"nadie",false,true) )
   }
 }
 function getRndInteger(min, max) {
@@ -130,7 +132,7 @@ io.on('connection', function (socket) {
   //    console.log(jugador[j].name+" "+jugador[j].log);
   //  }
     });
- 
+
    socket.on('loggin', function (data) { console.log(data) ; });
 
 });

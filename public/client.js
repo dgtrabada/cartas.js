@@ -21,16 +21,22 @@ document.addEventListener("DOMContentLoaded", function() {
    Tx=Ty=600
    var mensaje = "inicio de partida"
 
-  // var index = Math.floor(Math.random()*4)
 
+   var nombre =""
+   var index = Math.floor(Math.random()*4)
+   if(index==0) nombre="dgtrabada"
+   if(index==1) nombre="dguerra"
+   if(index==2) nombre="pangard"
+   if(index==3) nombre="alsubias"
+
+/*
    var index = 5;
-
    var nombre = prompt("Please enter your name:","");
    if(nombre == "dgtrabada") index=0
    if(nombre == "dguerra") index=1
    if(nombre == "pangard") index=2
    if(nombre == "alsubias") index=3
-
+*/
    socket.emit('loggin', {  nombre : nombre });
 
 
@@ -43,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
    for (i=0;i<carta.length;i++) {
     if(carta[i].visible){
        if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
-         carta[i].seleccionada=true;
+         carta[i].seleccionada_por=nombre;
          i=carta.length
          }
        }
@@ -57,11 +63,27 @@ document.addEventListener("DOMContentLoaded", function() {
      }
 
      if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(480-0) &&  mouse.pos.y <(480+25) ){
+       jugador[index].cantes=jugador[index].cantes+" 20"
+       for (i=0;i<carta.length;i++) {
+         if (carta[i].tirada){
+            if(carta[i].n=="C"){
+              jugador[index].cantes=jugador[index].cantes+" "+carta[i].palo
+            }
+         }
+       }
        jugador[index].puntos+=20
        llevar_cartas();
      }
      if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(520-0) &&  mouse.pos.y <(520+25) ){
        jugador[index].puntos+=40
+       jugador[index].cantes=jugador[index].cantes+" 40"
+       for (i=0;i<carta.length;i++) {
+         if (carta[i].tirada){
+            if(carta[i].n=="R"){
+              jugador[index].cantes=jugador[index].cantes+" "+carta[i].palo
+            }
+         }
+       }
        llevar_cartas()
      }
      if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(560-0) &&  mouse.pos.y <(560+25) ){
@@ -72,12 +94,12 @@ document.addEventListener("DOMContentLoaded", function() {
    canvas.onmouseup = function(e){
       mouse.click = false;
       for (i=0;i<carta.length;i++) {
-        if(carta[i].seleccionada){
+        if(carta[i].seleccionada_por == nombre){
         if((Math.pow(carta[i].x[index]-330,2)+(Math.pow(carta[i].y[index]-325,2)))<Math.pow(160,2)){
           carta[i].tirada=true;
         }
       }
-        carta[i].seleccionada=false;
+        carta[i].seleccionada_por="nadie";
 
       }
       socket.emit('escena', {  carta : carta });
@@ -172,7 +194,12 @@ document.addEventListener("DOMContentLoaded", function() {
              }
           }
       socket.emit('escena', {  carta : carta });
-      for (j=0;j<jugador.length;j++) {jugador[j].puntos=0 }
+      for (j=0;j<jugador.length;j++) {
+        jugador[j].puntos=0
+        jugador[j].cantes=""
+        if(jugador[j].name==nombre) {jugador[j].reparte=true;
+        }else {jugador[j].reparte=false}
+      }
       socket.emit('jugador', {  jugador : jugador });
 
     }
@@ -194,9 +221,13 @@ document.addEventListener("DOMContentLoaded", function() {
 function poner_mensaje(){
   mensaje="";
   for (j=0;j<jugador.length;j++){
-    mensaje=mensaje+" "+jugador[j].name+" "+jugador[j].puntos
+    if(jugador[j].reparte){mensaje=mensaje+'*'}
+    mensaje=mensaje+jugador[j].name+" "+jugador[j].puntos
+    mensaje=mensaje+jugador[j].cantes
+    mensaje=mensaje+"; "
  }
 }
+
 
  function botones(){
 
@@ -282,7 +313,7 @@ function poner_mensaje(){
 
    for (i=0;i<carta.length;i++) {
    if(carta[i].visible){
-       if(carta[i].seleccionada && mouse.click ){
+       if(carta[i].seleccionada_por == nombre && mouse.click ){
          if(index == 0){
            carta[i].x[0]=mouse.pos.x-ancho/2;
            carta[i].y[0]=mouse.pos.y-largo/2;
@@ -366,7 +397,7 @@ function poner_mensaje(){
       }
       context.beginPath();
 
-      if(carta[i].seleccionada){
+      if(carta[i].seleccionada_por == nombre){
         if((Math.pow(carta[i].x[index]-330,2)+(Math.pow(carta[i].y[index]-325,2)))>Math.pow(160,2)){
           context.strokeStyle = "blue";
         }else{
