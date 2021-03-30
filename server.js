@@ -14,19 +14,20 @@ console.log("Server running on 127.0.0.1:8069");
 var palo = ["oros","copas","bastos","espadas"]
 
 class Jugador {
-  constructor(index,name,puntos,reparte,cantes){
+  constructor(index,name,puntos,reparte,cantes,color){
     this.name=name
     this.index=index
     this.puntos=puntos
     this.reparte=reparte
     this.cantes=cantes
+    this.color=color
   }
 }
 var jugador=[]
-jugador.push(new Jugador(0,"dgtrabada",0,false,""))
-jugador.push(new Jugador(1,"dguerra",0,false,""))
-jugador.push(new Jugador(2,"pangard",0,false,""))
-jugador.push(new Jugador(3,"alsubias",0,false,""))
+jugador.push(new Jugador(0,"dgtrabada",0,false,"","MediumSeaGreen"))
+jugador.push(new Jugador(1,"dguerra",0,false,"","blue"))
+jugador.push(new Jugador(2,"pangard",0,false,"","yellow"))
+jugador.push(new Jugador(3,"alsubias",0,false,"","orange"))
 
 
 class Carta {
@@ -57,7 +58,7 @@ for (p=0;p<palo.length;p++){
     // coincidencia cuatro jugadores y cuatro palos
     aux_x=[200+40*i,80+p*120,Tx-(200+40*i),Tx-(80+p*120)]
     aux_y=[80+p*120,200+40*i,Tx-(80+p*120),Tx-(200+40*i)]
-    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,true,"nadie",false,true) )
+    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,false,"nadie",false,true) )
   }
 }
 function getRndInteger(min, max) {

@@ -39,6 +39,15 @@ document.addEventListener("DOMContentLoaded", function() {
 */
    socket.emit('loggin', {  nombre : nombre });
 
+   function getIndex(nombre) {
+     var aux_index=0
+     if(nombre == "dgtrabada") aux_index=0
+     if(nombre == "dguerra") aux_index=1
+     if(nombre == "pangard") aux_index=2
+     if(nombre == "alsubias") aux_index=3
+     return aux_index
+   }
+
 
 
    // register mouse event handlers
@@ -97,11 +106,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(carta[i].seleccionada_por == nombre){
         if((Math.pow(carta[i].x[index]-330,2)+(Math.pow(carta[i].y[index]-325,2)))<Math.pow(160,2)){
           carta[i].tirada=true;
+        }else{carta[i].tirada=false;}
+        carta[i].seleccionada_por="nadie";
         }
       }
-        carta[i].seleccionada_por="nadie";
-
-      }
+      socket.emit('jugador', {  jugador : jugador });
       socket.emit('escena', {  carta : carta });
       drawCartas()
 
@@ -154,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function repartir(){
       for(i=0;i<40;i++){
-          carta[i].up=true;
+          carta[i].up=false;
           carta[i].jugador=jugador[i%4];
           carta[i].tirada=false;
           carta[i].visible=true;
@@ -376,7 +385,7 @@ function poner_mensaje(){
        context.fill();
        context.closePath();
 
-      if((carta[i].up && carta[i].jugador.name == jugador[index].name)||carta[i].tirada==true){
+      if((carta[i].up ^ carta[i].jugador.name == jugador[index].name) || carta[i].tirada==true){
       context.font = "12px Arial";
       if(carta[i].palo=="espadas")context.fillStyle = "#0095DD";
       if(carta[i].palo=="bastos")context.fillStyle = "#7D210E";
@@ -397,11 +406,12 @@ function poner_mensaje(){
       }
       context.beginPath();
 
-      if(carta[i].seleccionada_por == nombre){
-        if((Math.pow(carta[i].x[index]-330,2)+(Math.pow(carta[i].y[index]-325,2)))>Math.pow(160,2)){
-          context.strokeStyle = "blue";
+      if(carta[i].seleccionada_por != "nadie"){
+        if((Math.pow(carta[i].x[index]-330,2)+(Math.pow(carta[i].y[index]-325,2)))<Math.pow(160,2)){
+          context.strokeStyle = "red";
         }else{
-          context.strokeStyle = "red";}
+          context.strokeStyle = jugador[(getIndex(carta[i].seleccionada_por))].color;
+        }
       }else{
         if(carta[i].tirada) {
           context.strokeStyle = "green";
