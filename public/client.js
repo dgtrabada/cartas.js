@@ -24,27 +24,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
    var nombre =""
    var index = Math.floor(Math.random()*4)
-   if(index==0) nombre="dgtrabada"
-   if(index==1) nombre="dguerra"
-   if(index==2) nombre="pangard"
-   if(index==3) nombre="alsubias"
+   nombre=getName(index);
+
+   function getName(aux_index) {
+   var aux_name=0
+   if(aux_index==0) aux_name="dgtrabada"
+   if(aux_index==1) aux_name="dguerra"
+   if(aux_index==2) aux_name="pangard"
+   if(aux_index==3) aux_name="alsubias"
+   return aux_name
+   }
 
 /*
    var index = 5;
    var nombre = prompt("Please enter your name:","");
-   if(nombre == "dgtrabada") index=0
-   if(nombre == "dguerra") index=1
-   if(nombre == "pangard") index=2
-   if(nombre == "alsubias") index=3
+   index=getIndex(nombre)
 */
    socket.emit('loggin', {  nombre : nombre });
 
-   function getIndex(nombre) {
+   function getIndex(n) {
      var aux_index=0
-     if(nombre == "dgtrabada") aux_index=0
-     if(nombre == "dguerra") aux_index=1
-     if(nombre == "pangard") aux_index=2
-     if(nombre == "alsubias") aux_index=3
+     if(n == "dgtrabada") aux_index=0
+     if(n == "dguerra") aux_index=1
+     if(n == "pangard") aux_index=2
+     if(n == "alsubias") aux_index=3
      return aux_index
    }
 
@@ -55,11 +58,11 @@ document.addEventListener("DOMContentLoaded", function() {
    mouse.click = true;
    mouse.pos.x = e.clientX ;
    mouse.pos.y = e.clientY ;
-   for (i=0;i<carta.length;i++) {
+   for (i=carta.length-1;i>-1;i--) {
     if(carta[i].visible){
        if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
          carta[i].seleccionada_por=nombre;
-         i=carta.length
+         i=-1 ;//carta.length
          }
        }
      }
@@ -98,8 +101,8 @@ document.addEventListener("DOMContentLoaded", function() {
      if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(560-0) &&  mouse.pos.y <(560+25) ){
        llevar_cartas()
      }
+   }; // canvas.onmousedown
 
-    };
    canvas.onmouseup = function(e){
       mouse.click = false;
       for (i=0;i<carta.length;i++) {
