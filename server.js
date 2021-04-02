@@ -45,6 +45,7 @@ class Carta {
     this.jugador=jugador;
     this.tirada = tirada;
     this.visible = visible;
+    this.id=id;
   }
 }
 
@@ -53,12 +54,14 @@ var ancho = 60
 var largo = 100
 Tx=Ty=600
 
+var id=0
 for (p=0;p<palo.length;p++){
   for (i=1;i<11;i++){
     // coincidencia cuatro jugadores y cuatro palos
     aux_x=[200+40*i,80+p*120,Tx-(200+40*i),Tx-(80+p*120)]
     aux_y=[80+p*120,200+40*i,Tx-(80+p*120),Tx-(200+40*i)]
     carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,false,"nadie",false,true) )
+    id++;
   }
 }
 function getRndInteger(min, max) {

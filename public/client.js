@@ -21,7 +21,18 @@ document.addEventListener("DOMContentLoaded", function() {
    Tx=Ty=600
    var mensaje = "inicio de partida"
 
-
+   var imagen=[];
+   var back=new Image();
+   back.src="B.png"
+   var palo = ["oros","copas","bastos","espadas"]
+   var num = ["1","2","3","4","5","6","7","S","C","R"]
+   for (p=0;p<palo.length;p++){
+     for (i=0;i<num.length;i++){
+       var k = new Image();
+       k.src = num[i]+"_"+palo[p]+".png" ;
+       imagen.push(k);
+     }
+   }
    var nombre =""
    var index = Math.floor(Math.random()*4)
    nombre=getName(index);
@@ -165,6 +176,15 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function repartir(){
+
+      for (j=0;j<jugador.length;j++) {
+        jugador[j].puntos=0
+        jugador[j].cantes=""
+        if(jugador[j].name==nombre) {jugador[j].reparte=true;
+        }else {jugador[j].reparte=false}
+      }
+      socket.emit('jugador', {  jugador : jugador });
+
       for(i=0;i<40;i++){
           carta[i].up=false;
           carta[i].jugador=jugador[i%4];
@@ -205,14 +225,10 @@ document.addEventListener("DOMContentLoaded", function() {
              carta[i].y=[25*ia,largo/2,25*ia,(Ty-largo)]
              }
           }
+          for(i=0;i<40;i++){
+            images[i].src=carta[i].n+"_"+carta[i].palo+".png" ;
+          }
       socket.emit('escena', {  carta : carta });
-      for (j=0;j<jugador.length;j++) {
-        jugador[j].puntos=0
-        jugador[j].cantes=""
-        if(jugador[j].name==nombre) {jugador[j].reparte=true;
-        }else {jugador[j].reparte=false}
-      }
-      socket.emit('jugador', {  jugador : jugador });
 
     }
 
@@ -236,7 +252,7 @@ function poner_mensaje(){
     if(jugador[j].reparte){mensaje=mensaje+'*'}
     mensaje=mensaje+jugador[j].name+" "+jugador[j].puntos
     mensaje=mensaje+jugador[j].cantes
-    mensaje=mensaje+"; "
+    mensaje=mensaje+"; "//+imagen.length
  }
 }
 
@@ -308,6 +324,11 @@ function poner_mensaje(){
       context.fillText("Cantar 20",660,500);
       context.fillText("Cantar 40",660,540);
       context.fillText("Llevar cartas",660,580);
+      context.fillStyle = "black"
+      context.fillText(jugador[index].name,      330-20,325+160-14);
+      context.fillText(jugador[(index+1)%4].name,330-80+160,330);
+      context.fillText(jugador[(index+2)%4].name,330-20,330-160+14);
+      context.fillText(jugador[(index+3)%4].name,330-150,330);
  }
 
  function drawCartas(){
@@ -389,23 +410,28 @@ function poner_mensaje(){
        context.closePath();
 
       if((carta[i].up ^ carta[i].jugador.name == jugador[index].name) || carta[i].tirada==true){
+      /*
       context.font = "12px Arial";
       if(carta[i].palo=="espadas")context.fillStyle = "#0095DD";
       if(carta[i].palo=="bastos")context.fillStyle = "#7D210E";
       if(carta[i].palo=="oros")context.fillStyle = " #E5CA3E";
       if(carta[i].palo=="copas")context.fillStyle = "#E5573E";
       context.fillText(carta[i].label, carta[i].x[index], carta[i].y[index]+12);
-  //    if(carta[i].tirada==false){
-    //    context.fillText(carta[i].jugador.name, carta[i].x[index], carta[i].y[index]+22);
-    //  }
-     context.font = "55px Arial";
-     context.fillText(carta[i].n,carta[i].x[index]+10, carta[i].y[index]+80);
+      context.font = "55px Arial";
+      context.fillText(carta[i].n,carta[i].x[index]+10, carta[i].y[index]+80);
+      */
+      context.drawImage(imagen[carta[i].id], carta[i].x[index], carta[i].y[index], ancho, largo);
       }else{
+        /*
         context.fillStyle = "grey";
         context.fillRect (carta[i].x[index], carta[i].y[index], ancho, largo);
         context.fillStyle = "LightGray";
         context.font = "12px Arial";
         context.fillText(carta[i].jugador.name, carta[i].x[index], carta[i].y[index]+22);
+        */
+        context.drawImage(back, carta[i].x[index], carta[i].y[index], ancho, largo);
+
+
       }
       context.beginPath();
 
