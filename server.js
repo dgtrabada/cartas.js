@@ -12,6 +12,7 @@ app.use(express.static(__dirname + '/public'));
 console.log("Server running on 127.0.0.1:8069");
 
 var palo = ["oros","copas","bastos","espadas"]
+var num = ["2","4","5","6","7","S","C","R","3","1"]
 
 class Jugador {
   constructor(index,name,puntos,reparte,cantes,color){
@@ -36,9 +37,6 @@ class Carta {
     this.y = y;
     this.palo = palo;
     this.n = n;
-    if(n==8) this.n = "S";
-    if(n==9) this.n = "C";
-    if(n==10) this.n = "R";
     this.seleccionada_por = seleccionada_por;
     this.up = up
     this.label = this.n+" "+this.palo;
@@ -56,11 +54,11 @@ Tx=Ty=600
 
 var id=0
 for (p=0;p<palo.length;p++){
-  for (i=1;i<11;i++){
+  for (i=0;i<num.length;i++){
     // coincidencia cuatro jugadores y cuatro palos
     aux_x=[200+40*i,80+p*120,Tx-(200+40*i),Tx-(80+p*120)]
     aux_y=[80+p*120,200+40*i,Tx-(80+p*120),Tx-(200+40*i)]
-    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],i,false,"nadie",false,true) )
+    carta.push( new Carta(jugador[p],aux_x,aux_y,palo[p],num[i],false,"nadie",false,true) )
     id++;
   }
 }

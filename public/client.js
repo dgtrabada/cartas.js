@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
    var back=new Image();
    back.src="B.png"
    var palo = ["oros","copas","bastos","espadas"]
-   var num = ["1","2","3","4","5","6","7","S","C","R"]
+   var num = ["2","4","5","6","7","S","C","R","3","1"]
    for (p=0;p<palo.length;p++){
      for (i=0;i<num.length;i++){
        var k = new Image();
