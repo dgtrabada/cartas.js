@@ -33,9 +33,11 @@ document.addEventListener("DOMContentLoaded", function() {
        imagen.push(k);
      }
    }
+   /*
    var nombre =""
    var index = Math.floor(Math.random()*4)
    nombre=getName(index);
+*/
 
    function getName(aux_index) {
    var aux_name=0
@@ -46,15 +48,15 @@ document.addEventListener("DOMContentLoaded", function() {
    return aux_name
    }
 
-/*
+
    var index = 5;
    var nombre = prompt("Please enter your name:","");
    index=getIndex(nombre)
-*/
+
    socket.emit('loggin', {  nombre : nombre });
 
    function getIndex(n) {
-     var aux_index=0
+     var aux_index=1
      if(n == "dgtrabada") aux_index=0
      if(n == "dguerra") aux_index=1
      if(n == "pangard") aux_index=2
@@ -124,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
         carta[i].seleccionada_por="nadie";
         }
       }
-      socket.emit('jugador', {  jugador : jugador });
+    //  socket.emit('jugador', {  jugador : jugador });
       socket.emit('escena', {  carta : carta });
       drawCartas()
 
@@ -326,9 +328,9 @@ function poner_mensaje(){
       context.fillText("Llevar cartas",660,580);
       context.fillStyle = "black"
       context.fillText(jugador[index].name,      330-20,325+160-14);
-      context.fillText(jugador[(index+1)%4].name,330-80+160,330);
+      context.fillText(jugador[(index+3)%4].name,330-80+160,330);
       context.fillText(jugador[(index+2)%4].name,330-20,330-160+14);
-      context.fillText(jugador[(index+3)%4].name,330-150,330);
+      context.fillText(jugador[(index+1)%4].name,330-150,330);
  }
 
  function drawCartas(){
@@ -468,7 +470,7 @@ function poner_mensaje(){
    if ((mouse.click && mouse.move)) {
       socket.emit('escena', {  carta : carta });
       }
-      setTimeout(mainLoop, 25); //25ms
+      setTimeout(mainLoop, 50); //Xms
    }
    mainLoop();
 });
