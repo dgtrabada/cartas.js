@@ -33,11 +33,11 @@ document.addEventListener("DOMContentLoaded", function() {
        imagen.push(k);
      }
    }
-
+/*
    var nombre =""
    var index = Math.floor(Math.random()*4)
    nombre=getName(index);
-
+*/
    function getName(aux_index) {
    var aux_name=0
    if(aux_index==0) aux_name="dgtrabada"
@@ -47,11 +47,11 @@ document.addEventListener("DOMContentLoaded", function() {
    return aux_name
    }
 
-/*
+
    var index = 5;
    var nombre = prompt("Please enter your name:","");
    index=getIndex(nombre)
-*/
+
    socket.emit('loggin', {  nombre : nombre });
 
    function getIndex(n) {
