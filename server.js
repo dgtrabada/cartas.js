@@ -48,9 +48,9 @@ class Carta {
 }
 
 var carta=[]
-var ancho = 60
-var largo = 100
-Tx=Ty=600
+var ancho = 133
+var largo = 204
+Tx=Ty=800
 
 var id=0
 for (p=0;p<palo.length;p++){

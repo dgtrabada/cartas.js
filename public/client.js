@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", function() {
    // set canvas to full browser width/height
    canvas.width = width;
    canvas.height = height;
-   var ancho = 60
-   var largo = 100
-   Tx=Ty=600
+   var ancho = 133
+   var largo = 204
+   Tx=Ty=800
    var mensaje = "inicio de partida"
 
    var imagen=[];
@@ -33,11 +33,10 @@ document.addEventListener("DOMContentLoaded", function() {
        imagen.push(k);
      }
    }
-   /*
+
    var nombre =""
    var index = Math.floor(Math.random()*4)
    nombre=getName(index);
-*/
 
    function getName(aux_index) {
    var aux_name=0
@@ -48,11 +47,11 @@ document.addEventListener("DOMContentLoaded", function() {
    return aux_name
    }
 
-
+/*
    var index = 5;
    var nombre = prompt("Please enter your name:","");
    index=getIndex(nombre)
-
+*/
    socket.emit('loggin', {  nombre : nombre });
 
    function getIndex(n) {
@@ -79,15 +78,16 @@ document.addEventListener("DOMContentLoaded", function() {
          }
        }
      }
-     if(mouse.pos.x>630 && mouse.pos.x<655 &&  mouse.pos.y >(400-0) &&  mouse.pos.y <(400+25) ){
+     if(mouse.pos.x>(Tx+30) && mouse.pos.x<(Tx+60)){
+     if( mouse.pos.y >(Ty-200) &&  mouse.pos.y <(Ty-200+25) ){
        repartir();
      }
 
-     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(440-0) &&  mouse.pos.y <(440+25) ){
+     if( mouse.pos.y >(Ty-160) &&  mouse.pos.y <(Ty-160+25) ){
        cantar_renuncio();
      }
 
-     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(480-0) &&  mouse.pos.y <(480+25) ){
+     if( mouse.pos.y >(Ty-120) &&  mouse.pos.y <(Ty-120+25) ){
        jugador[index].cantes=jugador[index].cantes+" 20"
        for (i=0;i<carta.length;i++) {
          if (carta[i].tirada){
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
        jugador[index].puntos+=20
        llevar_cartas();
      }
-     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(520-0) &&  mouse.pos.y <(520+25) ){
+     if(mouse.pos.y >(Ty-80) &&  mouse.pos.y <(Ty-80+25)){
        jugador[index].puntos+=40
        jugador[index].cantes=jugador[index].cantes+" 40"
        for (i=0;i<carta.length;i++) {
@@ -111,9 +111,10 @@ document.addEventListener("DOMContentLoaded", function() {
        }
        llevar_cartas()
      }
-     if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(560-0) &&  mouse.pos.y <(560+25) ){
+     if(mouse.pos.y >(Ty-40) &&  mouse.pos.y <(Ty-40+25) ){
        llevar_cartas()
      }
+   }
    }; // canvas.onmousedown
 
    canvas.onmouseup = function(e){
@@ -136,10 +137,11 @@ document.addEventListener("DOMContentLoaded", function() {
      mouse.pos.x = e.clientX ;
      mouse.pos.y = e.clientY ;
 
-     for (i=0;i<carta.length;i++) {
+     for (i=carta.length-1;i>-1;i--) {
       if(carta[i].visible){
          if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
           carta[i].up=!(carta[i].up);
+          i=-1
           }
         }
       }
@@ -202,29 +204,29 @@ document.addEventListener("DOMContentLoaded", function() {
           carta[i1].jugador = aux;
           }//repartimos
 
-          id=ip=ia=ig=5
-
+          id=ip=ia=ig=0
+          var sep=19
           for(i=0;i<40;i++) {
             //console.log(carta[i].jugador.name)
             if(carta[i].jugador.name=="dgtrabada"){
+              carta[i].x=[ancho+sep/2 + Tx/sep*id,(Tx-ancho),         ancho+sep/2 + Tx/sep*id, 0                ]
+              carta[i].y=[(Ty-largo),              largo/2+Ty/sep*id,                       0, largo/2+Ty/sep*id]
               id++;
-              carta[i].x=[Tx/24*id,(Tx-ancho),Tx/24*id,ancho]
-              carta[i].y=[(Ty-largo),Ty/24*id,largo/2,Ty/24*id]
               }
             if(carta[i].jugador.name=="dguerra"){
+              carta[i].x=[0,                 ancho+sep/2 + Tx/sep*ig,  (Tx-ancho),       ancho+sep/2 + Tx/sep*ig]
+              carta[i].y=[largo/2+Ty/sep*ig, (Ty-largo),               largo/2+Ty/sep*ig,                      0]
               ig++;
-              carta[i].x=[ancho,Tx/24*ig,(Tx-ancho),Tx/24*ig]
-              carta[i].y=[Ty/24*ig,(Ty-largo),Ty/24*ig,largo/2]
               }
             if(carta[i].jugador.name=="pangard"){
+              carta[i].x=[ancho+sep/2 + Tx/sep*ip, 0,               ancho+sep/2 + Tx/sep*ip,  (Tx-ancho)]
+              carta[i].y=[0,                     largo/2+Ty/sep*ip, (Ty-largo),                largo/2+Ty/sep*ip]
              ip++;
-             carta[i].x=[Tx/24*ip,ancho,Tx/24*ip,(Tx-ancho)]
-             carta[i].y=[largo/2,Ty/24*ip,(Ty-largo),Ty/24*ip]
              }
            if(carta[i].jugador.name=="alsubias"){
-             ia++;
-             carta[i].x=[(Tx-ancho),25*ia,ancho,25*ia]
-             carta[i].y=[25*ia,largo/2,25*ia,(Ty-largo)]
+             carta[i].x=[Tx-ancho,          ancho+sep/2 + Tx/sep*ia, 0,                 ancho+sep/2 + Tx/sep*ia]
+             carta[i].y=[largo/2+Ty/sep*ia,  0,                     largo/2+Ty/sep*ia,   (Ty-largo)]
+              ia++;
              }
           }
           for(i=0;i<40;i++){
@@ -261,41 +263,42 @@ function poner_mensaje(){
 
  function botones(){
 
-   context.fillStyle = "rgb(255, 255, 0)"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(400-0) &&  mouse.pos.y <(400+25) ){context.fillStyle = "rgb(191, 255, 0)"}
+   context.fillStyle = "MediumSeaGreen"
+   if(mouse.pos.x>(Tx+30) && mouse.pos.x<(Tx+60) && mouse.pos.y >(Ty-200) &&  mouse.pos.y <(Ty-200+25) ){context.fillStyle = "greenyellow"}
    context.beginPath();
-   context.fillRect (630, 400,25,25);
+   context.fillRect (Tx+30, Ty-200,25,25);
    context.fill();
    context.closePath();
    context.stroke();
-   context.fillStyle = "rgb(255, 191, 0)"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(440-0) &&  mouse.pos.y <(440+25) ){context.fillStyle = "rgb(255, 0, 0)"}
+   context.fillStyle = "MediumSeaGreen"
+   if(mouse.pos.x>(Tx+30) && mouse.pos.x<(Tx+60) && mouse.pos.y >(Ty-160) &&  mouse.pos.y <(Ty-160+25) ){context.fillStyle = "greenyellow"}
    context.beginPath();
-   context.fillRect (630, 440,25,25);
+   context.fillRect (Tx+30, Ty-160,25,25);
    context.fill();
    context.closePath();
    context.stroke();
-   context.fillStyle = "rgb(191, 255, 0)"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(480-0) &&  mouse.pos.y <(480+25) ){context.fillStyle = "rgb(0, 255, 64)"}
+   context.fillStyle = "MediumSeaGreen"
+   if(mouse.pos.x>(Tx+30) && mouse.pos.x<(Tx+60) && mouse.pos.y >(Ty-120) &&  mouse.pos.y <(Ty-120+25) ){context.fillStyle = "greenyellow"}
    context.beginPath();
-   context.fillRect  (630, 480,25,25);
+   context.fillRect  (Tx+30, Ty-120,25,25);
    context.fill();
    context.closePath();
    context.stroke();
-   context.fillStyle = "rgb(255, 0, 255)"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(520-0) &&  mouse.pos.y <(520+25) ){context.fillStyle = "rgb(191, 0, 255)"}
+   context.fillStyle = "MediumSeaGreen"
+   if(mouse.pos.x>(Tx+30) && mouse.pos.x<(Tx+60) && mouse.pos.y >(Ty-80) &&  mouse.pos.y <(Ty-80+25) ){context.fillStyle = "greenyellow"}
    context.beginPath();
-   context.fillRect (630, 520,25,25);
+   context.fillRect (Tx+30, Ty-80,25,25);
    context.fill();
    context.closePath();
    context.stroke();
-   context.fillStyle = "rgb(0, 255, 255)"
-   if(mouse.pos.x>630 && mouse.pos.x<655 && mouse.pos.y >(560-0) &&  mouse.pos.y <(560+25) ){context.fillStyle = "rgb(64, 0, 255)"}
+   context.fillStyle = "MediumSeaGreen"
+   if(mouse.pos.x>(Tx+30) && mouse.pos.x<(Tx+60) && mouse.pos.y >(Ty-40) &&  mouse.pos.y <(Ty-40+25) ){context.fillStyle = "greenyellow"}
    context.beginPath();
-   context.fillRect  (630, 560,25,25);
+   context.fillRect  (Tx+30, Ty-40,25,25);
    context.fill();
    context.closePath();
    context.stroke();
+
  }
 
  function borrar(){
@@ -307,11 +310,11 @@ function poner_mensaje(){
       // dibujamos la mesa
       context.beginPath();
       context.fillStyle = "green"
-      context.fillRect (50, 50, 560, 550);
+      context.fillRect (0, 0, Tx, Ty);
       context.fill();
       context.closePath();
       context.beginPath();
-      context.arc(330, 325, 160, 0, 2 * Math.PI, false);
+      context.arc(Tx/2, Ty/2, (Tx+Ty)/8, 0, 2 * Math.PI, false);
       context.fillStyle = 'MediumSeaGreen';
       context.fill();
       context.lineWidth = 5;
@@ -321,30 +324,44 @@ function poner_mensaje(){
       botones();
       context.font = "14px Arial";
       context.fillStyle = "#0095DD";
-      context.fillText("Repartir",660,420);
-      context.fillText("Renuncio",660,460);
-      context.fillText("Cantar 20",660,500);
-      context.fillText("Cantar 40",660,540);
-      context.fillText("Llevar cartas",660,580);
+      context.fillText("Repartir",Tx+60,Ty-200+20);
+      context.fillText("Renuncio",Tx+60,Ty-160+20);
+      context.fillText("Cantar 20",Tx+60,Ty-120+20);
+      context.fillText("Cantar 40",Tx+60,Ty-80+20);
+      context.fillText("Llevar cartas",Tx+60,Ty-40+20);
       context.fillStyle = "black"
-      context.fillText(jugador[index].name,      330-20,325+160-14);
-      context.fillText(jugador[(index+3)%4].name,330-80+160,330);
-      context.fillText(jugador[(index+2)%4].name,330-20,330-160+14);
-      context.fillText(jugador[(index+1)%4].name,330-150,330);
+      context.fillText(jugador[index].name,      Tx/2-20,Ty/2+160-14);
+      context.fillText(jugador[(index+3)%4].name,Tx/2-80+160,Ty/2);
+      context.fillText(jugador[(index+2)%4].name,Tx/2-20,Ty/2-160+14);
+      context.fillText(jugador[(index+1)%4].name,Tx/2-150,Ty/2);
  }
+
+ function roundedRect(x, y, width, height, radius) {
+   context.beginPath();
+   context.lineWidth = 2;
+   context.moveTo(x, y + radius);
+   context.lineTo(x, y + height - radius);
+   context.arcTo(x, y + height, x + radius, y + height, radius);
+   context.lineTo(x + width - radius, y + height);
+   context.arcTo(x + width, y + height, x + width, y + height-radius, radius);
+   context.lineTo(x + width, y + radius);
+   context.arcTo(x + width, y, x + width - radius, y, radius);
+   context.lineTo(x + radius, y);
+   context.arcTo(x, y, x, y + radius, radius);
+   context.stroke();
+ }
+
 
  function drawCartas(){
 
    borrar()
    context.lineWidth = 1;
-   context.font = "14px Arial";
-   context.fillStyle = "#0095DD";
-   context.fillText("name = "+jugador[index].name,8,20);
+   //context.fillText("name = "+jugador[index].name,Tx+30,390);
    //context.fillText("("+parseInt(mouse.pos.x)+","+parseInt(mouse.pos.y)+")", 8,20);
-   context.font = "12px Arial";
+   context.font = "16px Arial";
    context.fillStyle = "#0095DD";
    poner_mensaje();
-   context.fillText(mensaje,8,40);
+   context.fillText(mensaje,20,Ty+20);
 
    for (i=0;i<carta.length;i++) {
    if(carta[i].visible){
@@ -352,65 +369,55 @@ function poner_mensaje(){
          if(index == 0){
            carta[i].x[0]=mouse.pos.x-ancho/2;
            carta[i].y[0]=mouse.pos.y-largo/2;
-
-           carta[i].x[1]=mouse.pos.y;
-           carta[i].y[1]=Ty-mouse.pos.x+ancho/2;
-
-           carta[i].x[2]=Tx-mouse.pos.x+ancho/2;
-           carta[i].y[2]=Ty-mouse.pos.y;
-
-          carta[i].x[3]=Tx-mouse.pos.y;
-          carta[i].y[3]=mouse.pos.x-largo/2;
+           carta[i].x[1]=mouse.pos.y-ancho/2;
+           carta[i].y[1]=Ty-mouse.pos.x-largo/2;
+           carta[i].x[2]=Tx-mouse.pos.x-ancho/2;
+           carta[i].y[2]=Ty-mouse.pos.y-largo/2;
+           carta[i].x[3]=Tx-mouse.pos.y-ancho/2;
+           carta[i].y[3]=mouse.pos.x-largo/2;
         }
          if(index == 3){
-          carta[i].x[3]=mouse.pos.x-ancho/2;
-          carta[i].y[3]=mouse.pos.y-largo/2;
-
-          carta[i].x[0]=mouse.pos.y;
-          carta[i].y[0]=Ty-mouse.pos.x+ancho/2;
-
-          carta[i].x[1]=Tx-mouse.pos.x+ancho/2;
-          carta[i].y[1]=Ty-mouse.pos.y;
-
-          carta[i].x[2]=Tx-mouse.pos.y;
-          carta[i].y[2]=mouse.pos.x-largo/2;
+           carta[i].x[3]=mouse.pos.x-ancho/2;
+           carta[i].y[3]=mouse.pos.y-largo/2;
+           carta[i].x[0]=mouse.pos.y-ancho/2;
+           carta[i].y[0]=Ty-mouse.pos.x-largo/2;
+           carta[i].x[1]=Tx-mouse.pos.x-ancho/2;
+           carta[i].y[1]=Ty-mouse.pos.y-largo/2;
+           carta[i].x[2]=Tx-mouse.pos.y-ancho/2;
+           carta[i].y[2]=mouse.pos.x-largo/2;
             }
          if(index == 2){
-          carta[i].x[2]=mouse.pos.x-ancho/2;
-          carta[i].y[2]=mouse.pos.y-largo/2;
-
-          carta[i].x[3]=mouse.pos.y;
-          carta[i].y[3]=Ty-mouse.pos.x+ancho/2;
-
-          carta[i].x[0]=Tx-mouse.pos.x+ancho/2;
-          carta[i].y[0]=Ty-mouse.pos.y;
-
-          carta[i].x[1]=Tx-mouse.pos.y;
-          carta[i].y[1]=mouse.pos.x-largo/2;
+           carta[i].x[2]=mouse.pos.x-ancho/2;
+           carta[i].y[2]=mouse.pos.y-largo/2;
+           carta[i].x[3]=mouse.pos.y-ancho/2;
+           carta[i].y[3]=Ty-mouse.pos.x-largo/2;
+           carta[i].x[0]=Tx-mouse.pos.x-ancho/2;
+           carta[i].y[0]=Ty-mouse.pos.y-largo/2;
+           carta[i].x[1]=Tx-mouse.pos.y-ancho/2;
+           carta[i].y[1]=mouse.pos.x-largo/2;
             }
          if(index == 1){
            carta[i].x[1]=mouse.pos.x-ancho/2;
            carta[i].y[1]=mouse.pos.y-largo/2;
-
-           carta[i].x[2]=mouse.pos.y;
-           carta[i].y[2]=Ty-mouse.pos.x+ancho/2;
-
-           carta[i].x[3]=Tx-mouse.pos.x+ancho/2;
-           carta[i].y[3]=Ty-mouse.pos.y;
-
-           carta[i].x[0]=Tx-mouse.pos.y;
+           carta[i].x[2]=mouse.pos.y-ancho/2;
+           carta[i].y[2]=Ty-mouse.pos.x-largo/2;
+           carta[i].x[3]=Tx-mouse.pos.x-ancho/2;
+           carta[i].y[3]=Ty-mouse.pos.y-largo/2;
+           carta[i].x[0]=Tx-mouse.pos.y-ancho/2;
            carta[i].y[0]=mouse.pos.x-largo/2;
            }
+
          //  carta[i].x[2]=mouse.pos.x-ancho/2;
          //  carta[i].y[2]=Ty-(mouse.pos.y-largo/2);
          //   }
         }
        context.beginPath();
+       /*
        context.fillStyle = "rgb(255,255,255)"
        context.fillRect (carta[i].x[index], carta[i].y[index], ancho, largo);
        context.fill();
        context.closePath();
-
+*/
       if((carta[i].up ^ carta[i].jugador.name == jugador[index].name) || carta[i].tirada==true){
       /*
       context.font = "12px Arial";
@@ -422,7 +429,7 @@ function poner_mensaje(){
       context.font = "55px Arial";
       context.fillText(carta[i].n,carta[i].x[index]+10, carta[i].y[index]+80);
       */
-      context.drawImage(imagen[carta[i].id], carta[i].x[index], carta[i].y[index], ancho, largo);
+      context.drawImage(imagen[carta[i].id], carta[i].x[index], carta[i].y[index]);
       }else{
         /*
         context.fillStyle = "grey";
@@ -431,7 +438,7 @@ function poner_mensaje(){
         context.font = "12px Arial";
         context.fillText(carta[i].jugador.name, carta[i].x[index], carta[i].y[index]+22);
         */
-        context.drawImage(back, carta[i].x[index], carta[i].y[index], ancho, largo);
+        context.drawImage(back, carta[i].x[index], carta[i].y[index]);
 
 
       }
@@ -440,17 +447,20 @@ function poner_mensaje(){
       if(carta[i].seleccionada_por != "nadie"){
         if((Math.pow(carta[i].x[index]-330,2)+(Math.pow(carta[i].y[index]-325,2)))<Math.pow(160,2)){
           context.strokeStyle = "red";
+          roundedRect(carta[i].x[index], carta[i].y[index], ancho, largo,10);
         }else{
           context.strokeStyle = jugador[(getIndex(carta[i].seleccionada_por))].color;
+          roundedRect(carta[i].x[index], carta[i].y[index], ancho, largo,10);
         }
       }else{
         if(carta[i].tirada) {
-          context.strokeStyle = "green";
-         }else{
-            context.strokeStyle = "black";
-         }
+          context.strokeStyle = "greenyellow";
+          roundedRect(carta[i].x[index], carta[i].y[index], ancho, largo,10);
+        }//else{
+        //    context.strokeStyle = "black";
+        // }
       }
-      context.rect(carta[i].x[index], carta[i].y[index], ancho, largo);
+  //    context.rect(carta[i].x[index], carta[i].y[index], ancho, largo);
       context.stroke();
       //context.fillText("carta "+i+" : "+parseInt(carta[i].x[index])+","+parseInt(carta[i].y[index]), 8,40+i*20);
      }
