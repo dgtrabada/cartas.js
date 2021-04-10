@@ -33,11 +33,11 @@ document.addEventListener("DOMContentLoaded", function() {
        imagen.push(k);
      }
    }
-
+/*
    var nombre =""
    var index = Math.floor(Math.random()*4)
    nombre=getName(index);
-
+*/
    function getName(aux_index) {
    var aux_name=0
    if(aux_index==0) aux_name="dgtrabada"
@@ -47,11 +47,11 @@ document.addEventListener("DOMContentLoaded", function() {
    return aux_name
    }
 
-/*
+
    var index = 5;
    var nombre = prompt("Please enter your name:","");
    index=getIndex(nombre)
-*/
+
    socket.emit('loggin', {  nombre : nombre });
 
    function getIndex(n) {
@@ -74,6 +74,11 @@ document.addEventListener("DOMContentLoaded", function() {
     if(carta[i].visible){
        if(mouse.pos.x>carta[i].x[index] && mouse.pos.x<(carta[i].x[index]+ancho) && mouse.pos.y>carta[i].y[index] && mouse.pos.y<(carta[i].y[index]+largo)){
          carta[i].seleccionada_por=nombre;
+         m=carta[i]
+         for (j=i;j<carta.length-1;j++){
+           carta[j]=carta[j+1]
+         }
+         carta[carta.length-1] = m
          i=-1 ;//carta.length
          }
        }
@@ -124,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if((Math.pow(carta[i].x[index]-330,2)+(Math.pow(carta[i].y[index]-325,2)))<Math.pow(160,2)){
           carta[i].tirada=true;
         }else{carta[i].tirada=false;}
-        carta[i].seleccionada_por="nadie";
+          carta[i].seleccionada_por="nadie";
         }
       }
     //  socket.emit('jugador', {  jugador : jugador });
@@ -209,23 +214,23 @@ document.addEventListener("DOMContentLoaded", function() {
           for(i=0;i<40;i++) {
             //console.log(carta[i].jugador.name)
             if(carta[i].jugador.name=="dgtrabada"){
-              carta[i].x=[ancho+sep/2 + Tx/sep*id  , (Tx-ancho)                     , ancho+sep/2 + Tx/sep*id, 0                ]
-              carta[i].y=[(Ty-largo)               , largo/2+Ty/sep*id              ,  0                     , largo/2+Ty/sep*id]
+              carta[i].x=[ancho+sep/2 + Tx/sep*id          , (Tx-ancho)                     , Tx-ancho*4/2-sep/2 - Tx/sep*id, 0                ]
+              carta[i].y=[(Ty-largo)                       , largo/2+Ty/sep*id              ,  0                            , largo/2+Ty/sep*id]
               id++;
               }
             if(carta[i].jugador.name=="dguerra"){
-              carta[i].x=[0                        , ancho+sep/2 + Tx/sep*ig        ,  (Tx-ancho)            ,  ancho+sep/2 + Tx/sep*ig]
-              carta[i].y=[largo/2+Ty/sep*ig        , (Ty-largo)                     ,  largo/2+Ty/sep*ig     ,   0 ]
+              carta[i].x=[0                               , ancho+sep/2 + Tx/sep*ig        ,  (Tx-ancho)                     ,   Tx-ancho*4/2-sep/2 - Tx/sep*ig]
+              carta[i].y=[largo/2+Ty/sep*ig               , (Ty-largo)                     ,  largo/2+Ty/sep*ig               ,   0 ]
               ig++;
               }
             if(carta[i].jugador.name=="pangard"){
-              carta[i].x=[ancho+sep/2 + Tx/sep*ip  , 0                              ,  ancho+sep/2 + Tx/sep*ip,  (Tx-ancho)             ]
-              carta[i].y=[0                        , largo/2+Ty/sep*ip              ,  (Ty-largo)             ,  largo/2+Ty/sep*ip      ]
+              carta[i].x=[Tx-ancho*4/2-sep/2 - Tx/sep*ip  , 0                              ,  ancho+sep/2 + Tx/sep*ip        ,  (Tx-ancho)             ]
+              carta[i].y=[0                               , largo/2+Ty/sep*ip              ,  (Ty-largo)                      ,  largo/2+Ty/sep*ip      ]
              ip++;
              }
            if(carta[i].jugador.name=="alsubias"){
-             carta[i].x=[Tx-ancho                 ,   ancho+sep/2 + Tx/sep*ia        ,  0                       ,  ancho+sep/2 + Tx/sep*ia]
-             carta[i].y=[largo/2+Ty/sep*ia        ,   0                              ,  largo/2+Ty/sep*ia       ,   (Ty-largo)]
+             carta[i].x=[Tx-ancho                        ,  Tx-ancho*4/2-sep/2 - Tx/sep*ia  ,  0                       ,  ancho+sep/2 + Tx/sep*ia]
+             carta[i].y=[Ty-(largo*3/2+Ty/sep*ia)        ,   0                              ,  largo/2+Ty/sep*ia       ,   (Ty-largo)]
               ia++;
              }
           }
@@ -322,7 +327,7 @@ function poner_mensaje(){
       context.stroke();
 
       botones();
-      context.font = "14px Arial";
+      context.font = "18px Arial";
       context.fillStyle = "#0095DD";
       context.fillText("Repartir",Tx+60,Ty-200+20);
       context.fillText("Renuncio",Tx+60,Ty-160+20);
