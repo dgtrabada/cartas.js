@@ -1,4 +1,5 @@
 git clone https://github.com/dgtrabada/cartas.js
+cd cartas.js
 sudo apt-get install npm
 npm install express and socket.io
 node server.js
